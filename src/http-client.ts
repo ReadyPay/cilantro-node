@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+import fetch, { BodyInit, RequestInit } from "node-fetch";
 import { URL } from "url";
 
 export class HttpClient {
@@ -15,13 +15,21 @@ export class HttpClient {
     return this.request(path, "POST");
   }
 
-  private async request(path: string, method: string): Promise<unknown> {
-    const response = await fetch(new URL(path, this.baseAPIUrl), {
+  private async request(
+    path: string,
+    method: string,
+    body?: BodyInit
+  ): Promise<unknown> {
+    const options: RequestInit = {
       method,
       headers: {
         "Auth-Key": this.apiKey,
       },
-    });
+    };
+    if (body) {
+      options.body = body;
+    }
+    const response = await fetch(new URL(path, this.baseAPIUrl), options);
     return await response.json();
   }
 }
