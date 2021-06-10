@@ -1,35 +1,25 @@
-import fetch, { BodyInit, RequestInit } from "node-fetch";
-import { URL } from "url";
+import axios, { AxiosInstance } from "axios";
 
 export class HttpClient {
+  private readonly client: AxiosInstance;
+
   constructor(
     private readonly apiKey: string,
     private readonly baseAPIUrl: string
-  ) {}
-
-  get(path: string): Promise<unknown> {
-    return this.request(path, "GET");
-  }
-
-  post(path: string): Promise<unknown> {
-    return this.request(path, "POST");
-  }
-
-  private async request(
-    path: string,
-    method: string,
-    body?: BodyInit
-  ): Promise<unknown> {
-    const options: RequestInit = {
-      method,
+  ) {
+    this.client = axios.create({
+      baseURL: this.baseAPIUrl,
       headers: {
         "Auth-Key": this.apiKey,
       },
-    };
-    if (body) {
-      options.body = body;
-    }
-    const response = await fetch(new URL(path, this.baseAPIUrl), options);
-    return await response.json();
+    });
+  }
+
+  get(path: string): Promise<unknown> {
+    return this.client.get(path);
+  }
+
+  post(path: string, data?: any): Promise<unknown> {
+    return this.client.post(path, data);
   }
 }
