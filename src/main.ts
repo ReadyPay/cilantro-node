@@ -7,8 +7,8 @@ export class Cilantro {
     private readonly apiKey: string,
     private readonly baseAPIUrl: string
   ) {
-    if (!this.apiKey) throw new Error("Please provide an apiKey");
-    if (!this.baseAPIUrl) throw new Error("Please provide the baseAPIUrl");
+    if (!this.apiKey) throw new Error("apiKey is required");
+    if (!this.baseAPIUrl) throw new Error("baseAPIUrl is required");
 
     this.httpClient = new HttpClient(this.apiKey, this.baseAPIUrl);
   }
