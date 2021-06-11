@@ -3,9 +3,8 @@
   "version": "0.0.2",
   "description": "Node SDK for Cilantro",
   "main": "src/main.ts",
-  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "start": "tsnd src/main.ts",
     "release": "release-it"
   },
@@ -20,9 +19,12 @@
   },
   "homepage": "https://github.com/DerekRTP/cilantro-node#readme",
   "devDependencies": {
+    "@types/jest": "^26.0.23",
     "@types/node": "^15.12.2",
+    "jest": "^27.0.4",
     "prettier": "^2.3.1",
     "release-it": "^14.8.0",
+    "ts-jest": "^27.0.3",
     "ts-node-dev": "^1.1.6",
     "typescript": "^4.3.2"
   },
