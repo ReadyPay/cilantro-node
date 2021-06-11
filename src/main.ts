@@ -1,6 +1,6 @@
 import { HttpClient } from "./http-client";
 import { Item } from "./models/item";
-import { JsonType } from "./json-type";
+import { JsonType } from "./json-util";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
