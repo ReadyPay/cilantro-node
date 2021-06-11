@@ -2,10 +2,12 @@
   "name": "@readytopay/cilantro-node",
   "version": "0.1.0",
   "description": "Node SDK for Cilantro",
-  "main": "src/main.ts",
+  "main": "dist/main.js",
+  "types": "dist/main.d.ts",
   "scripts": {
     "test": "jest",
     "start": "tsnd src/main.ts",
+    "build": "tsc",
     "release": "release-it"
   },
   "repository": {
@@ -31,5 +33,6 @@
   },
   "dependencies": {
     "axios": "^0.21.1"
-  }
+  },
+  "prepublish": "tsc"
 }
