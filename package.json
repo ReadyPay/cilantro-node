@@ -1,6 +1,6 @@
 {
   "name": "@readytopay/cilantro-node",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node SDK for Cilantro",
   "main": "dist/main.js",
   "types": "dist/main.d.ts",
