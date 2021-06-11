@@ -7,12 +7,12 @@ export class Cilantro {
 
   constructor(
     private readonly apiKey: string,
-    private readonly baseAPIUrl: string
+    private readonly apiUrl: string
   ) {
     if (!this.apiKey) throw new Error("apiKey is required");
-    if (!this.baseAPIUrl) throw new Error("baseAPIUrl is required");
+    if (!this.apiUrl) throw new Error("apiUrl is required");
 
-    this.httpClient = new HttpClient(this.apiKey, this.baseAPIUrl);
+    this.httpClient = new HttpClient(this.apiKey, this.apiUrl);
   }
 
   async getItems(locationId: number): Promise<Item[]> {

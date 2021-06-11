@@ -10,10 +10,10 @@ export class HttpClient {
 
   constructor(
     private readonly apiKey: string,
-    private readonly baseAPIUrl: string
+    private readonly apiUrl: string
   ) {
     this.client = axios.create({
-      baseURL: this.baseAPIUrl,
+      baseURL: this.apiUrl,
       headers: {
         "Auth-Key": this.apiKey,
       },
