@@ -13,7 +13,10 @@ npm i @readytopay/cilantro-node
 ## Usage
 
 ```typescript
-TODO
+import { Cilantro } from '@readytopay/cilantro-node';
+
+const cilantro = new Cilantro(apiKey, apiUrl);
+const items = await cilantro.getItems(locationId)
 ```
 
 ## Contributing
