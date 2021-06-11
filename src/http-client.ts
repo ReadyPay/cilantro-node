@@ -1,5 +1,10 @@
 import axios, { AxiosInstance } from "axios";
 
+interface HttpResponse<T> {
+  data: T;
+  status: number;
+}
+
 export class HttpClient {
   private readonly client: AxiosInstance;
 
@@ -15,11 +20,19 @@ export class HttpClient {
     });
   }
 
-  get(path: string): Promise<unknown> {
-    return this.client.get(path);
+  async get<T>(path: string): Promise<HttpResponse<T>> {
+    const res = await this.client.get<T>(path);
+    return {
+      data: res.data,
+      status: res.status,
+    };
   }
 
-  post(path: string, data?: any): Promise<unknown> {
-    return this.client.post(path, data);
+  async post<T>(path: string, data?: any): Promise<HttpResponse<T>> {
+    const res = await this.client.post<T>(path, data);
+    return {
+      data: res.data,
+      status: res.status,
+    };
   }
 }

@@ -1,4 +1,6 @@
 import { HttpClient } from "./http-client";
+import { Item } from "./models/item";
+import { JsonType } from "./json-type";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -11,5 +13,12 @@ export class Cilantro {
     if (!this.baseAPIUrl) throw new Error("baseAPIUrl is required");
 
     this.httpClient = new HttpClient(this.apiKey, this.baseAPIUrl);
+  }
+
+  async getItems(locationId: number): Promise<Item[]> {
+    const response = await this.httpClient.get<JsonType[]>(
+      `/location/${locationId}/items`
+    );
+    return [];
   }
 }
