@@ -5,7 +5,7 @@ export class Item extends Model {
   constructor(
     readonly id: number,
     readonly createdAt: Date,
-    readonly updatedAt: Date
+    readonly updatedAt: Date | null
   ) {
     super(id, createdAt, updatedAt);
   }
@@ -19,7 +19,9 @@ export class Item extends Model {
       typeof data["created_at"] === "string"
         ? new Date(data["created_at"])
         : new Date(),
-      new Date()
+      typeof data["updated_at"] === "string"
+        ? new Date(data["updated_at"])
+        : null
     );
   }
 }
