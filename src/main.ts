@@ -9,8 +9,8 @@ export class Cilantro {
     private readonly apiKey: string,
     private readonly apiUrl: string
   ) {
-    if (!this.apiKey) throw new Error("apiKey is required");
-    if (!this.apiUrl) throw new Error("apiUrl is required");
+    if (!this.apiKey) throw new Error("cilantro apiKey is required");
+    if (!this.apiUrl) throw new Error("cilantro apiUrl is required");
 
     this.httpClient = new HttpClient(this.apiKey, this.apiUrl);
   }
