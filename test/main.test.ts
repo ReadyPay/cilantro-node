@@ -1,4 +1,7 @@
 import { Cilantro } from "../src/main";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 let cilantro: Cilantro;
 beforeAll(() => {
