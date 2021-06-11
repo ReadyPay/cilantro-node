@@ -7,11 +7,8 @@
   "scripts": {
     "test": "jest",
     "start": "tsnd src/main.ts",
-    "build": "tsc",
+    "build": "rm -rf ./dist && tsc",
     "release": "release-it"
-  },
-  "hooks": {
-    "after:bump": "rm -rf ./dist && npm run build"
   },
   "repository": {
     "type": "git",
