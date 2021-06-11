@@ -1,9 +1,7 @@
 import { Model } from "./model";
 import {
   extractBool,
-  extractDate,
   extractEnum,
-  extractNullDate,
   extractNumber,
   extractString,
   JsonType,
@@ -32,9 +30,7 @@ export class Item extends Model {
       d = JSON.parse(d) as JsonType;
     }
     return new Item(
-      extractNumber(d, "id"),
-      extractDate(d, "created_at"),
-      extractNullDate(d, "updated_at"),
+      ...Model.extractPropsFromJSON(d),
       extractNumber(d, "location_id"),
       extractBool(d, "enabled"),
       extractString(d, "name"),
