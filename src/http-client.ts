@@ -28,7 +28,7 @@ export class HttpClient {
     };
   }
 
-  async post<T>(path: string, data?: any): Promise<HttpResponse<T>> {
+  async post<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
     const res = await this.client.post<T>(path, data);
     return {
       data: res.data,

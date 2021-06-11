@@ -5,7 +5,7 @@ dotenv.config();
 
 let cilantro: Cilantro;
 beforeAll(() => {
-  cilantro = new Cilantro(process.env.KEY!, process.env.URL!);
+  cilantro = new Cilantro(process.env.KEY ?? "", process.env.URL ?? "");
 });
 
 test("getItems", async () => {
