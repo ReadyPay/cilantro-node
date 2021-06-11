@@ -8,7 +8,8 @@
     "test": "jest",
     "start": "tsnd src/main.ts",
     "build": "tsc",
-    "release": "release-it"
+    "release": "release-it",
+    "before:npm": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,5 @@
   },
   "dependencies": {
     "axios": "^0.21.1"
-  },
-  "prepublish": "tsc"
+  }
 }
