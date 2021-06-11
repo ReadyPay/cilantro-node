@@ -16,7 +16,7 @@ npm i @readytopay/cilantro-node
 import { Cilantro } from '@readytopay/cilantro-node';
 
 const cilantro = new Cilantro(apiKey, apiUrl);
-const items = await cilantro.getItems(locationId)
+const items = await cilantro.getItems(locationId);
 ```
 
 ## Contributing
