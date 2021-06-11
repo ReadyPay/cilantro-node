@@ -2,7 +2,7 @@
   "name": "@readytopay/cilantro-node",
   "version": "0.0.1",
   "description": "Node SDK for Cilantro",
-  "main": "index.js",
+  "main": "src/main.ts",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

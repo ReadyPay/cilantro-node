@@ -19,6 +19,6 @@ export class Cilantro {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/items`
     );
-    return [];
+    return response.data.map((record) => Item.fromJSON(record));
   }
 }

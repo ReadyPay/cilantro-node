@@ -1,4 +1,5 @@
 import { Model } from "./model";
+import { JsonType } from "../json-type";
 
 export class Item extends Model {
   constructor(
@@ -9,12 +10,14 @@ export class Item extends Model {
     super(id, createdAt, updatedAt);
   }
 
-  static fromJSON(data: string): Item {
-    const json: { [k: string]: unknown } = JSON.parse(data);
+  static fromJSON(data: string | JsonType): Item {
+    if (typeof data === "string") {
+      data = JSON.parse(data) as JsonType;
+    }
     return new Item(
-      typeof json["id"] === "number" ? json["id"] : 0,
-      typeof json["created_at"] === "string"
-        ? new Date(json["created_at"])
+      typeof data["id"] === "number" ? data["id"] : 0,
+      typeof data["created_at"] === "string"
+        ? new Date(data["created_at"])
         : new Date(),
       new Date()
     );
