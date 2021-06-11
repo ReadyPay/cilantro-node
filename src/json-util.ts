@@ -1,5 +1,9 @@
 export type JsonType = { [k: string]: unknown };
 
+export interface JsonDeserializer<T> {
+  fromJSON(d: string | JsonType): T;
+}
+
 export function extractNumber(data: JsonType, k: string): number {
   return typeof data[k] === "number" ? (data[k] as number) : 0;
 }
@@ -33,4 +37,15 @@ export function extractEnum<T>(
     return data[k] as T;
   }
   return defaultValue;
+}
+
+export function extractNestedModel<T>(
+  data: JsonType,
+  k: string,
+  nestedModelType: JsonDeserializer<T>
+): T | null {
+  if (typeof data[k] === "object" && data[k] !== null) {
+    return nestedModelType.fromJSON(data[k] as JsonType);
+  }
+  return null;
 }

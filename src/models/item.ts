@@ -2,10 +2,12 @@ import { Model } from "./model";
 import {
   extractBool,
   extractEnum,
+  extractNestedModel,
   extractNumber,
   extractString,
   JsonType,
 } from "../json-util";
+import { TaxRate } from "./taxRate";
 
 export class Item extends Model {
   constructor(
@@ -20,7 +22,8 @@ export class Item extends Model {
     readonly price: number,
     readonly taxRateId: number,
     readonly type: ItemType,
-    readonly alcohol: boolean
+    readonly alcohol: boolean,
+    readonly taxRate: TaxRate | null
   ) {
     super(id, createdAt, updatedAt);
   }
@@ -39,7 +42,8 @@ export class Item extends Model {
       extractNumber(d, "price"),
       extractNumber(d, "tax_rate_id"),
       extractEnum(d, "type", ItemType, ItemType.Item),
-      extractBool(d, "alcohol")
+      extractBool(d, "alcohol"),
+      extractNestedModel(d, "tax_rate", TaxRate)
     );
   }
 }
