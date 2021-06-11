@@ -8,8 +8,10 @@
     "test": "jest",
     "start": "tsnd src/main.ts",
     "build": "tsc",
-    "release": "release-it",
-    "before:npm": "npm run build"
+    "release": "release-it"
+  },
+  "hooks": {
+    "after:bump": "rm -rf ./dist && npm run build"
   },
   "repository": {
     "type": "git",
