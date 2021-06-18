@@ -1,9 +1,9 @@
 # Cilantro Node SDK
 
-The official Node/Typescript SDK for Cilantro, the Ready POS.
-
 ![npm](https://img.shields.io/npm/v/@readytopay/cilantro-node)
 ![GitHub](https://img.shields.io/github/license/DerekRTP/cilantro-node)
+
+The official Node/Typescript SDK for Cilantro, the Ready POS.
 
 ## Installation
 
