@@ -12,10 +12,6 @@ export function extractDate(data: JsonType, k: string): Date {
   return typeof data[k] === "string" ? new Date(data[k] as string) : new Date();
 }
 
-export function extractNullDate(data: JsonType, k: string): Date | null {
-  return typeof data[k] === "string" ? new Date(data[k] as string) : null;
-}
-
 export function extractBool(data: JsonType, k: string): boolean {
   return !!data[k];
 }

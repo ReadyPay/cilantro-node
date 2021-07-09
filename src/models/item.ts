@@ -13,7 +13,7 @@ export class Item extends Model {
   constructor(
     readonly id: number,
     readonly createdAt: Date,
-    readonly updatedAt: Date | null,
+    readonly updatedAt: Date,
     readonly locationId: number,
     readonly enabled: boolean,
     readonly name: string,

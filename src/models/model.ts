@@ -1,9 +1,4 @@
-import {
-  extractDate,
-  extractNullDate,
-  extractNumber,
-  JsonType,
-} from "../json-util";
+import { extractDate, extractNumber, JsonType } from "../json-util";
 
 export class Model {
   constructor(
@@ -12,13 +7,11 @@ export class Model {
     readonly updatedAt: Date | null
   ) {}
 
-  protected static extractPropsFromJSON(
-    d: JsonType
-  ): [number, Date, Date | null] {
+  protected static extractPropsFromJSON(d: JsonType): [number, Date, Date] {
     return [
       extractNumber(d, "id"),
       extractDate(d, "created_at"),
-      extractNullDate(d, "updated_at"),
+      extractDate(d, "updated_at"),
     ];
   }
 }
