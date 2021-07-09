@@ -29,4 +29,11 @@ export class Cilantro {
     );
     return response.data.map((record) => Table.fromJSON(record));
   }
+
+  async getTable(locationId: number, tableId: number): Promise<Table> {
+    const response = await this.httpClient.get<JsonType>(
+      `/location/${locationId}/table/${tableId}`
+    );
+    return Table.fromJSON(response.data);
+  }
 }
