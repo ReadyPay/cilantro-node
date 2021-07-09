@@ -4,7 +4,7 @@ import { ModifierRequest } from "./modifier-request";
 export class ItemRequest {
   constructor(
     readonly id: number,
-    readonly adjustments: AdjustmentRequest[],
-    readonly modifiers: ModifierRequest[]
+    readonly adjustments?: AdjustmentRequest[],
+    readonly modifiers?: ModifierRequest[]
   ) {}
 }

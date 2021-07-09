@@ -1,6 +1,9 @@
 import { Cilantro } from "../src/main";
 import * as dotenv from "dotenv";
 import { PriceCheckRequest } from "../src/requests/price-check-request";
+import { ItemRequest } from "../src/requests/item-request";
+import { AdjustmentRequest } from "../src/requests/adjustment-request";
+import { PaymentRequest } from "../src/requests/payment-request";
 
 dotenv.config();
 
@@ -24,6 +27,13 @@ test("getTable", async () => {
 test("priceCheck", async () => {
   console.log(
     "priceCheck:",
-    await cilantro.priceCheck(new PriceCheckRequest(1, [], [], []))
+    await cilantro.priceCheck(
+      new PriceCheckRequest(
+        1,
+        [new ItemRequest(1)],
+        [new AdjustmentRequest(1)],
+        [new PaymentRequest(1, 42)]
+      )
+    )
   );
 });

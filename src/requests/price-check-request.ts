@@ -5,8 +5,8 @@ import { PaymentRequest } from "./payment-request";
 export class PriceCheckRequest {
   constructor(
     readonly locationId: number,
-    readonly items: ItemRequest[],
-    readonly adjustments: AdjustmentRequest[],
-    readonly payments: PaymentRequest[]
+    readonly items?: ItemRequest[],
+    readonly adjustments?: AdjustmentRequest[],
+    readonly payments?: PaymentRequest[]
   ) {}
 }
