@@ -24,6 +24,6 @@ test("getTable", async () => {
 test("priceCheck", async () => {
   console.log(
     "priceCheck:",
-    await cilantro.priceCheck(new PriceCheckRequest(1, []))
+    await cilantro.priceCheck(new PriceCheckRequest(1, [], [], []))
   );
 });
