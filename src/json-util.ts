@@ -1,7 +1,12 @@
-export type JsonType = { [k: string]: unknown };
+export type JsonType = Record<string, unknown>;
 
 export interface JsonDeserializer<T> {
   fromJSON(d: string | JsonType): T;
+}
+
+// Classes will naturally serialize to JSON, but some require name conversions to snake case.
+export interface JsonSerializer {
+  toJSON(): JsonType;
 }
 
 export function extractNumber(data: JsonType, k: string): number {
