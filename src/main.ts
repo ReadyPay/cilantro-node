@@ -1,6 +1,7 @@
 import { HttpClient } from "./http-client";
 import { Item } from "./models/item";
 import { JsonType } from "./json-util";
+import { Table } from "./models/table";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -20,5 +21,12 @@ export class Cilantro {
       `/location/${locationId}/items`
     );
     return response.data.map((record) => Item.fromJSON(record));
+  }
+
+  async getTables(locationId: number): Promise<Table[]> {
+    const response = await this.httpClient.get<JsonType[]>(
+      `/location/${locationId}/tables`
+    );
+    return response.data.map((record) => Table.fromJSON(record));
   }
 }
