@@ -2,6 +2,8 @@ import { HttpClient } from "./http-client";
 import { Item } from "./models/item";
 import { JsonType } from "./json-util";
 import { Table } from "./models/table";
+import { PriceCheckResponse } from "./responses/price-check-response";
+import { PriceCheckRequest } from "./requests/price-check-request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -35,5 +37,13 @@ export class Cilantro {
       `/location/${locationId}/table/${tableId}`
     );
     return Table.fromJSON(response.data);
+  }
+
+  async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${request.locationId}/price-check`,
+      request
+    );
+    return PriceCheckResponse.fromJSON(response.data);
   }
 }
