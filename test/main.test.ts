@@ -9,5 +9,13 @@ beforeAll(() => {
 });
 
 test("getItems", async () => {
-  console.log(await cilantro.getItems(1));
+  console.log("getItems:", (await cilantro.getItems(1)).slice(0, 1));
+});
+
+test("getTables", async () => {
+  console.log("getTables:", (await cilantro.getTables(1)).slice(0, 1));
+});
+
+test("getTable", async () => {
+  console.log("getTable:", await cilantro.getTable(1, 1));
 });
