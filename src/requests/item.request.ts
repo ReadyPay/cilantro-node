@@ -1,5 +1,5 @@
-import { AdjustmentRequest } from "./adjustment-request";
-import { ModifierRequest } from "./modifier-request";
+import { AdjustmentRequest } from "./adjustment.request";
+import { ModifierRequest } from "./modifier.request";
 
 export class ItemRequest {
   constructor(
