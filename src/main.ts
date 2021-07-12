@@ -4,6 +4,8 @@ import { JsonType } from "./json-util";
 import { Table } from "./models/table";
 import { PriceCheckResponse } from "./responses/price-check-response";
 import { PriceCheckRequest } from "./requests/price-check-request";
+import {SubmitOrderRequest} from "./requests/submit-order.request";
+import {SubmitOrderResponse} from "./responses/submit-order.response";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -45,5 +47,13 @@ export class Cilantro {
       request.toJSON()
     );
     return PriceCheckResponse.fromJSON(response.data);
+  }
+
+  async submitOrder(request: SubmitOrderRequest): Promise<SubmitOrderResponse> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${request.locationId}/table/${request.tableId}/order`,
+      request.toJSON()
+    );
+    return SubmitOrderResponse.fromJSON(response.data);
   }
 }
