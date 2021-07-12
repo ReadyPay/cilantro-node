@@ -42,7 +42,7 @@ export class Cilantro {
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
     const response = await this.httpClient.post<JsonType>(
       `/location/${request.locationId}/price-check`,
-      request
+      request.toJSON()
     );
     return PriceCheckResponse.fromJSON(response.data);
   }
