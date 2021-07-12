@@ -4,6 +4,7 @@ import { PriceCheckRequest } from "../src/requests/price-check.request";
 import { ItemRequest } from "../src/requests/item.request";
 import { AdjustmentRequest } from "../src/requests/adjustment.request";
 import { PaymentRequest } from "../src/requests/payment.request";
+import { SubmitOrderRequest } from "../src/requests/submit-order.request";
 
 dotenv.config();
 
@@ -29,6 +30,21 @@ test("priceCheck", async () => {
     "priceCheck:",
     await cilantro.priceCheck(
       new PriceCheckRequest(
+        1,
+        [new ItemRequest(1)],
+        [new AdjustmentRequest(1)],
+        [new PaymentRequest(1, 42)]
+      )
+    )
+  );
+});
+
+test("submitOrder", async () => {
+  console.log(
+    "submitOrder:",
+    await cilantro.submitOrder(
+      new SubmitOrderRequest(
+        1,
         1,
         [new ItemRequest(1)],
         [new AdjustmentRequest(1)],
