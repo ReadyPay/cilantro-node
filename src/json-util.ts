@@ -4,7 +4,7 @@ export interface JsonDeserializer<T> {
   fromJSON(d: string | JsonType): T;
 }
 
-// Classes will naturally serialize to JSON, but some require name conversions to snake case.
+// Classes will naturally serialize to JSON, but those that require name conversions to snake case will implement this.
 export interface JsonSerializer {
   toJSON(): JsonType;
 }
