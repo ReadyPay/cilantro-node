@@ -4,8 +4,8 @@ import { JsonType } from "./json-util";
 import { Table } from "./models/table";
 import { PriceCheckResponse } from "./responses/price-check.response";
 import { PriceCheckRequest } from "./requests/price-check.request";
-import {SubmitOrderRequest} from "./requests/submit-order.request";
-import {SubmitOrderResponse} from "./responses/submit-order.response";
+import { SubmitOrderRequest } from "./requests/submit-order.request";
+import { SubmitOrderResponse } from "./responses/submit-order.response";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
