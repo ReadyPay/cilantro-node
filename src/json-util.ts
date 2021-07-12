@@ -1,5 +1,6 @@
 export type JsonType = Record<string, unknown>;
 
+// This is implemented implicitly due to the nature of the static keyword.
 export interface JsonDeserializer<T> {
   fromJSON(d: string | JsonType): T;
 }
