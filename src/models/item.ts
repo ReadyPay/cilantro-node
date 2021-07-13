@@ -2,7 +2,7 @@ import { Model } from "./model";
 import {
   extractBool,
   extractEnum,
-  extractNestedModel,
+  extractNullableNestedModel,
   extractNumber,
   extractString,
   JsonType,
@@ -43,7 +43,7 @@ export class Item extends Model {
       extractNumber(d, "tax_rate_id"),
       extractEnum(d, "type", ItemType, ItemType.Item),
       extractBool(d, "alcohol"),
-      extractNestedModel(d, "tax_rate", TaxRate)
+      extractNullableNestedModel(d, "tax_rate", TaxRate)
     );
   }
 }

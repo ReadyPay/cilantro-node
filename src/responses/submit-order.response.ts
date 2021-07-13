@@ -4,7 +4,7 @@ import { PriceCheckResponse } from "./price-check.response";
 export class SubmitOrderResponse {
   constructor(
     readonly orderId: number,
-    readonly priceCheck: PriceCheckResponse | null
+    readonly priceCheck: PriceCheckResponse
   ) {}
 
   static fromJSON(d: string | JsonType): SubmitOrderResponse {

@@ -44,6 +44,19 @@ export function extractEnum<T>(
 export function extractNestedModel<T>(
   data: JsonType,
   k: string,
+  nestedModelType: JsonDeserializer<T> & { name: string }
+): T {
+  if (typeof data[k] === "object" && data[k] !== null) {
+    return nestedModelType.fromJSON(data[k] as JsonType);
+  }
+  throw new Error(
+    `Unexpected JSON unmarshall failure for ${nestedModelType.name}`
+  );
+}
+
+export function extractNullableNestedModel<T>(
+  data: JsonType,
+  k: string,
   nestedModelType: JsonDeserializer<T>
 ): T | null {
   if (typeof data[k] === "object" && data[k] !== null) {
