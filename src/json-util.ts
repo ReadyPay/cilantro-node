@@ -50,7 +50,7 @@ export function extractNestedModel<T>(
     return nestedModelType.fromJSON(data[k] as JsonType);
   }
   throw new Error(
-    `Unexpected JSON unmarshall failure for ${nestedModelType.name}`
+    `Unexpected JSON unmarshal failure for ${nestedModelType.name}`
   );
 }
 
