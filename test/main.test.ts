@@ -25,6 +25,10 @@ test("getTable", async () => {
   console.log("getTable:", await cilantro.getTable(1, 1));
 });
 
+test("getAdjustments", async () => {
+  console.log("getAdjustments:", await cilantro.getAdjustments(1));
+});
+
 test("priceCheck", async () => {
   console.log(
     "priceCheck:",
