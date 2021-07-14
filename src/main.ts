@@ -6,6 +6,7 @@ import { PriceCheckResponse } from "./responses/price-check.response";
 import { PriceCheckRequest } from "./requests/price-check.request";
 import { SubmitOrderRequest } from "./requests/submit-order.request";
 import { SubmitOrderResponse } from "./responses/submit-order.response";
+import { Adjustment } from "./models/adjustment";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -39,6 +40,13 @@ export class Cilantro {
       `/location/${locationId}/table/${tableId}`
     );
     return Table.fromJSON(response.data);
+  }
+
+  async getAdjustments(locationId: number): Promise<Adjustment[]> {
+    const response = await this.httpClient.get<JsonType[]>(
+      `/location/${locationId}/adjustments`
+    );
+    return response.data.map((record) => Adjustment.fromJSON(record));
   }
 
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
