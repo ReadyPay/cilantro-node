@@ -49,6 +49,16 @@ export class Cilantro {
     return response.data.map((record) => Adjustment.fromJSON(record));
   }
 
+  async getAdjustment(
+    locationId: number,
+    adjustmentId: number
+  ): Promise<Adjustment> {
+    const response = await this.httpClient.get<JsonType>(
+      `/location/${locationId}/adjustment/${adjustmentId}`
+    );
+    return Adjustment.fromJSON(response.data);
+  }
+
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
     const response = await this.httpClient.post<JsonType>(
       `/location/${request.locationId}/price-check`,
