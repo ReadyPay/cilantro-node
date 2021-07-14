@@ -25,11 +25,15 @@ test("getTable", async () => {
   console.log("getTable:", await cilantro.getTable(1, 1));
 });
 
-test("c", async () => {
+test("getAdjustments", async () => {
   console.log(
     "getAdjustments:",
     (await cilantro.getAdjustments(1)).slice(0, 1)
   );
+});
+
+test("getAdjustment", async () => {
+  console.log("getAdjustment:", await cilantro.getAdjustment(1, 2));
 });
 
 test("priceCheck", async () => {
