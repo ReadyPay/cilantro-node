@@ -18,6 +18,7 @@ export class SubmitOrderRequest implements JsonSerializer {
       items: this.items,
       adjustments: this.adjustments,
       payments: this.payments?.map((p) => p.toJSON()),
+      tip_amount: this.tipAmount,
     };
   }
 }
