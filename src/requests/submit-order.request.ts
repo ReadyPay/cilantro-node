@@ -9,7 +9,8 @@ export class SubmitOrderRequest implements JsonSerializer {
     readonly tableId: number,
     readonly items?: ItemRequest[],
     readonly adjustments?: AdjustmentRequest[],
-    readonly payments?: PaymentRequest[]
+    readonly payments?: PaymentRequest[],
+    readonly tipAmount?: number
   ) {}
 
   toJSON(): JsonType {

@@ -42,7 +42,7 @@ test("priceCheck", async () => {
     await cilantro.priceCheck(
       new PriceCheckRequest(
         1,
-        [new ItemRequest(1)],
+        [new ItemRequest(1, 1)],
         [new AdjustmentRequest(1)],
         [new PaymentRequest(1, 42)]
       )
@@ -57,7 +57,7 @@ test("submitOrder", async () => {
       new SubmitOrderRequest(
         1,
         1,
-        [new ItemRequest(1)],
+        [new ItemRequest(1, 1)],
         [new AdjustmentRequest(1)],
         [new PaymentRequest(1, 42)]
       )
