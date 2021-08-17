@@ -16,6 +16,9 @@ import { TableCreateRequest } from "./requests/table-create.request";
 import { TableUpdateRequest } from "./requests/table-update.request";
 import { AdjustmentCreateRequest } from "./requests/adjustment-create.request";
 import { AdjustmentUpdateRequest } from "./requests/adjustment-update.request";
+import { TaxRate } from "./models/taxRate";
+import { TaxRateCreateRequest } from "./requests/taxRate-create.request";
+import { TaxRateUpdateRequest } from "./requests/taxRate-update.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -175,6 +178,34 @@ export class Cilantro {
   }
 
   // Tax Rates
+
+  async createTaxRate(taxRate: TaxRateCreateRequest): Promise<TaxRate> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${taxRate.locationId}/tax-rate`,
+      taxRate
+    );
+    return TaxRate.fromJson(response.data);
+  }
+
+  async getTaxRate(locationId: number, taxRateId: number): Promise<TaxRate> {
+    const response = await this.httpClient.get<JsonType>(
+      `/location/${locationId}/tax-rate/${taxRateId}`
+    );
+    return TaxRate.fromJson(response.data);
+  }
+
+  async updateTaxRate(taxRate: TaxRateUpdateRequest): Promise<void> {
+    await this.httpClient.post<JsonType>(
+      `/location/${taxRate.locationId}/tax-rate/${taxRate.id}`,
+      taxRate
+    );
+  }
+
+  async deleteTaxRate(locationId: number, taxRateId: number): Promise<void> {
+    await this.httpClient.delete<JsonType>(
+      `/location/${locationId}/tax-rate/${taxRateId}`
+    );
+  }
 
   // Payment Tenders
 
