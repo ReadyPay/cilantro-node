@@ -48,6 +48,13 @@ export class Cilantro {
 
   // Items
 
+  async getItem(locationId: number, itemId: number): Promise<Item> {
+    const response = await this.httpClient.get<JsonType>(
+      `/location/${locationId}/item/${itemId}`
+    );
+    return Item.fromJSON(response.data);
+  }
+
   async getItems(locationId: number): Promise<Item[]> {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/items`
