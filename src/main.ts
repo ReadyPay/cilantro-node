@@ -11,6 +11,7 @@ import { Location } from "./models/location";
 import { LocationCreateRequest } from "./requests/location-create.request";
 import { LocationUpdateRequest } from "./requests/location-update.request";
 import { ItemCreateRequest } from "./requests/item-create.request";
+import { ItemUpdateRequest } from "./requests/item-update.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -65,6 +66,13 @@ export class Cilantro {
       `/location/${locationId}/item/${itemId}`
     );
     return Item.fromJSON(response.data);
+  }
+
+  async updateItem(item: ItemUpdateRequest): Promise<void> {
+    await this.httpClient.post<JsonType>(
+      `/location/${item.locationId}/item/${item.id}`,
+      item
+    );
   }
 
   async getItems(locationId: number): Promise<Item[]> {
