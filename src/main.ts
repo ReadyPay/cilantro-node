@@ -183,7 +183,7 @@ export class Cilantro {
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
     const response = await this.httpClient.post<JsonType>(
       `/location/${request.locationId}/price-check`,
-      request.toJSON()
+      request
     );
     return PriceCheckResponse.fromJSON(response.data);
   }
@@ -191,7 +191,7 @@ export class Cilantro {
   async submitOrder(request: SubmitOrderRequest): Promise<SubmitOrderResponse> {
     const response = await this.httpClient.post<JsonType>(
       `/location/${request.locationId}/table/${request.tableId}/order`,
-      request.toJSON()
+      request
     );
     return SubmitOrderResponse.fromJSON(response.data);
   }

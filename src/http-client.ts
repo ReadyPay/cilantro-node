@@ -1,4 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
+import { JsonSerializer } from "./json-util";
 
 interface HttpResponse<T> {
   data: T;
@@ -25,15 +26,29 @@ export class HttpClient {
   }
 
   async post<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
-    return this.formatResponse(await this.client.post<T>(path, data));
+    return this.formatResponse(
+      await this.client.post<T>(path, this.formatRequestData(data))
+    );
   }
 
   async patch<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
-    return this.formatResponse(await this.client.patch<T>(path, data));
+    return this.formatResponse(
+      await this.client.patch<T>(path, this.formatRequestData(data))
+    );
   }
 
   async delete<T>(path: string): Promise<HttpResponse<T>> {
     return this.formatResponse(await this.client.delete<T>(path));
+  }
+
+  private formatRequestData(data: unknown) {
+    if (
+      typeof data === "object" &&
+      data !== null &&
+      typeof (data as JsonSerializer).toJSON === "function"
+    ) {
+      return (data as JsonSerializer).toJSON();
+    }
   }
 
   private formatResponse<T>(res: AxiosResponse<T>): HttpResponse<T> {
