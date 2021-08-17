@@ -42,6 +42,10 @@ export class Cilantro {
     return Location.fromJSON(response.data);
   }
 
+  async deleteLocation(locationId: number): Promise<void> {
+    await this.httpClient.delete<JsonType>(`/location/${locationId}`);
+  }
+
   // Items
 
   async getItems(locationId: number): Promise<Item[]> {
