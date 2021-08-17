@@ -23,6 +23,11 @@ export class Cilantro {
 
   // Locations
 
+  async createLocation(location: LocationRequest): Promise<Location> {
+    const response = await this.httpClient.patch<JsonType>("/location");
+    return Location.fromJSON(response.data);
+  }
+
   // Items
 
   async getItems(locationId: number): Promise<Item[]> {

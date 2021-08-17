@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance, AxiosResponse } from "axios";
 
 interface HttpResponse<T> {
   data: T;
@@ -21,15 +21,22 @@ export class HttpClient {
   }
 
   async get<T>(path: string): Promise<HttpResponse<T>> {
-    const res = await this.client.get<T>(path);
-    return {
-      data: res.data,
-      status: res.status,
-    };
+    return this.formatHttpResponse(await this.client.get<T>(path));
   }
 
   async post<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
-    const res = await this.client.post<T>(path, data);
+    return this.formatHttpResponse(await this.client.post<T>(path, data));
+  }
+
+  async patch<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
+    return this.formatHttpResponse(await this.client.patch<T>(path, data));
+  }
+
+  async delete<T>(path: string): Promise<HttpResponse<T>> {
+    return this.formatHttpResponse(await this.client.delete<T>(path));
+  }
+
+  private formatHttpResponse<T>(res: AxiosResponse<T>): HttpResponse<T> {
     return {
       data: res.data,
       status: res.status,
