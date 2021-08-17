@@ -1,6 +1,6 @@
 import { HttpClient } from "./http-client";
 import { Item } from "./models/item";
-import { JsonDeserializer, JsonSerializer, JsonType } from "./json-util";
+import { JsonDeserializer, JsonType } from "./json-util";
 import { Table } from "./models/table";
 import { PriceCheckResponse } from "./responses/price-check.response";
 import { PriceCheckRequest } from "./requests/price-check.request";
