@@ -158,6 +158,15 @@ export class Cilantro {
     );
   }
 
+  async deleteAdjustment(
+    locationId: number,
+    adjustmentId: number
+  ): Promise<void> {
+    await this.httpClient.delete<JsonType>(
+      `/location/${locationId}/adjustment/${adjustmentId}`
+    );
+  }
+
   async getAdjustments(locationId: number): Promise<Adjustment[]> {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/adjustments`
