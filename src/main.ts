@@ -50,7 +50,7 @@ export class Cilantro {
   }
 
   async updateLocation(location: LocationUpdateRequest): Promise<void> {
-    await this.httpClient.post<JsonType>(`/location/${location.id}`, location);
+    await this.httpClient.patch<JsonType>(`/location/${location.id}`, location);
   }
 
   async deleteLocation(locationId: number): Promise<void> {
@@ -71,7 +71,7 @@ export class Cilantro {
   }
 
   async updateItem(item: ItemUpdateRequest): Promise<void> {
-    await this.httpClient.post<JsonType>(
+    await this.httpClient.patch<JsonType>(
       `/location/${item.locationId}/item/${item.id}`,
       item
     );
@@ -104,7 +104,7 @@ export class Cilantro {
   }
 
   async updateTable(table: TableUpdateRequest): Promise<void> {
-    await this.httpClient.post<JsonType>(
+    await this.httpClient.patch<JsonType>(
       `/location/${table.locationId}/table/${table.id}`,
       table
     );
@@ -146,7 +146,7 @@ export class Cilantro {
   }
 
   async updateAdjustment(adjustment: AdjustmentUpdateRequest): Promise<void> {
-    await this.httpClient.post<JsonType>(
+    await this.httpClient.patch<JsonType>(
       `/location/${adjustment.locationId}/adjustment/${adjustment.id}`,
       adjustment
     );
@@ -186,7 +186,7 @@ export class Cilantro {
   }
 
   async updateTaxRate(taxRate: TaxRateUpdateRequest): Promise<void> {
-    await this.httpClient.post<JsonType>(
+    await this.httpClient.patch<JsonType>(
       `/location/${taxRate.locationId}/tax-rate/${taxRate.id}`,
       taxRate
     );
@@ -223,7 +223,7 @@ export class Cilantro {
   async updatePaymentTender(
     paymentTender: PaymentTenderUpdateRequest
   ): Promise<void> {
-    await this.httpClient.post<JsonType>(
+    await this.httpClient.patch<JsonType>(
       `/location/${paymentTender.locationId}/payment-tender/${paymentTender.id}`,
       paymentTender
     );
