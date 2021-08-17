@@ -78,10 +78,7 @@ export class Cilantro {
   }
 
   async getItems(locationId: number): Promise<Item[]> {
-    const response = await this.httpClient.get<JsonType[]>(
-      `/location/${locationId}/items`
-    );
-    return response.data.map((record) => Item.fromJson(record));
+    return this.getMany(`/location/${locationId}/items`, Item);
   }
 
   // Tables
@@ -108,10 +105,7 @@ export class Cilantro {
   }
 
   async getTables(locationId: number): Promise<Table[]> {
-    const response = await this.httpClient.get<JsonType[]>(
-      `/location/${locationId}/tables`
-    );
-    return response.data.map((record) => Table.fromJson(record));
+    return this.getMany(`/location/${locationId}/tables`, Table);
   }
 
   // Adjustments
@@ -153,10 +147,7 @@ export class Cilantro {
   }
 
   async getAdjustments(locationId: number): Promise<Adjustment[]> {
-    const response = await this.httpClient.get<JsonType[]>(
-      `/location/${locationId}/adjustments`
-    );
-    return response.data.map((record) => Adjustment.fromJson(record));
+    return this.getMany(`/location/${locationId}/adjustments`, Adjustment);
   }
 
   // Tax Rates
@@ -264,5 +255,13 @@ export class Cilantro {
   ): Promise<T> {
     const response = await this.httpClient.get<JsonType>(url);
     return returnClass.fromJson(response.data);
+  }
+
+  private async getMany<T>(
+    url: string,
+    returnClass: JsonDeserializer<T>
+  ): Promise<T[]> {
+    const response = await this.httpClient.get<JsonType[]>(url);
+    return response.data.map((record) => returnClass.fromJson(record));
   }
 }
