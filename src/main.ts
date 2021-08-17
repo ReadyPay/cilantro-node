@@ -7,6 +7,7 @@ import { PriceCheckRequest } from "./requests/price-check.request";
 import { SubmitOrderRequest } from "./requests/submit-order.request";
 import { SubmitOrderResponse } from "./responses/submit-order.response";
 import { Adjustment } from "./models/adjustment";
+import { Location } from "./models/location";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -24,7 +25,7 @@ export class Cilantro {
   // Locations
 
   async createLocation(location: LocationRequest): Promise<Location> {
-    const response = await this.httpClient.patch<JsonType>("/location");
+    const response = await this.httpClient.post<JsonType>("/location");
     return Location.fromJSON(response.data);
   }
 
