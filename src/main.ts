@@ -28,13 +28,6 @@ export class Cilantro {
     return response.data.map((record) => Item.fromJSON(record));
   }
 
-  async getTables(locationId: number): Promise<Table[]> {
-    const response = await this.httpClient.get<JsonType[]>(
-      `/location/${locationId}/tables`
-    );
-    return response.data.map((record) => Table.fromJSON(record));
-  }
-
   async getTable(locationId: number, tableId: number): Promise<Table> {
     const response = await this.httpClient.get<JsonType>(
       `/location/${locationId}/table/${tableId}`
@@ -42,11 +35,11 @@ export class Cilantro {
     return Table.fromJSON(response.data);
   }
 
-  async getAdjustments(locationId: number): Promise<Adjustment[]> {
+  async getTables(locationId: number): Promise<Table[]> {
     const response = await this.httpClient.get<JsonType[]>(
-      `/location/${locationId}/adjustments`
+      `/location/${locationId}/tables`
     );
-    return response.data.map((record) => Adjustment.fromJSON(record));
+    return response.data.map((record) => Table.fromJSON(record));
   }
 
   async getAdjustment(
@@ -57,6 +50,13 @@ export class Cilantro {
       `/location/${locationId}/adjustment/${adjustmentId}`
     );
     return Adjustment.fromJSON(response.data);
+  }
+
+  async getAdjustments(locationId: number): Promise<Adjustment[]> {
+    const response = await this.httpClient.get<JsonType[]>(
+      `/location/${locationId}/adjustments`
+    );
+    return response.data.map((record) => Adjustment.fromJSON(record));
   }
 
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
