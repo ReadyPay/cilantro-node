@@ -33,7 +33,7 @@ export class Item extends Model {
       d = JSON.parse(d) as JsonType;
     }
     return new Item(
-      ...Model.extractPropsfromJson(d),
+      ...Model.extractPropsFromJson(d),
       extractNumber(d, "location_id"),
       extractBool(d, "enabled"),
       extractString(d, "name"),

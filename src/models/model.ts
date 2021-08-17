@@ -7,7 +7,7 @@ export class Model {
     readonly updatedAt: Date
   ) {}
 
-  protected static extractPropsfromJson(d: JsonType): [number, Date, Date] {
+  protected static extractPropsFromJson(d: JsonType): [number, Date, Date] {
     return [
       extractNumber(d, "id"),
       extractDate(d, "created_at"),

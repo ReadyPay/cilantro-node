@@ -27,7 +27,7 @@ export class Adjustment extends Model {
       d = JSON.parse(d) as JsonType;
     }
     return new Adjustment(
-      ...Model.extractPropsfromJson(d),
+      ...Model.extractPropsFromJson(d),
       extractNumber(d, "location_id"),
       extractString(d, "name"),
       extractNumber(d, "value"),

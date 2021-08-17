@@ -25,7 +25,7 @@ export class Table extends Model {
       d = JSON.parse(d) as JsonType;
     }
     return new Table(
-      ...Model.extractPropsfromJson(d),
+      ...Model.extractPropsFromJson(d),
       extractNumber(d, "location_id"),
       extractString(d, "name"),
       extractNumber(d, "x_coordinate"),

@@ -17,7 +17,7 @@ export class Location extends Model {
       d = JSON.parse(d) as JsonType;
     }
     return new Location(
-      ...Model.extractPropsfromJson(d),
+      ...Model.extractPropsFromJson(d),
       extractString(d, "name"),
       extractString(d, "address")
     );

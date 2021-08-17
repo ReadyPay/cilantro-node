@@ -17,7 +17,7 @@ export class PaymentTender extends Model {
       d = JSON.parse(d) as JsonType;
     }
     return new PaymentTender(
-      ...Model.extractPropsfromJson(d),
+      ...Model.extractPropsFromJson(d),
       extractNumber(d, "location_id"),
       extractString(d, "name")
     );
