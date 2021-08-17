@@ -1,3 +1,7 @@
 export class LocationUpdateRequest {
-  constructor(readonly name?: string, readonly address?: string) {}
+  constructor(
+    readonly id: number,
+    readonly name?: string,
+    readonly address?: string
+  ) {}
 }

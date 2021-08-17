@@ -8,6 +8,7 @@ import { SubmitOrderRequest } from "./requests/submit-order.request";
 import { SubmitOrderResponse } from "./responses/submit-order.response";
 import { Adjustment } from "./models/adjustment";
 import { Location } from "./models/location";
+import { LocationCreateRequest } from "./requests/location-create.request";
 import { LocationUpdateRequest } from "./requests/location-update.request";
 
 export class Cilantro {
@@ -25,8 +26,19 @@ export class Cilantro {
 
   // Locations
 
-  async createLocation(location: LocationUpdateRequest): Promise<Location> {
-    const response = await this.httpClient.post<JsonType>("/location");
+  async createLocation(location: LocationCreateRequest): Promise<Location> {
+    const response = await this.httpClient.post<JsonType>(
+      "/location",
+      location
+    );
+    return Location.fromJSON(response.data);
+  }
+
+  async updateLocation(location: LocationUpdateRequest): Promise<Location> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${location.id}`,
+      location
+    );
     return Location.fromJSON(response.data);
   }
 
