@@ -35,6 +35,13 @@ export class Cilantro {
     return Location.fromJSON(response.data);
   }
 
+  async getLocation(locationId: number): Promise<Location> {
+    const response = await this.httpClient.get<JsonType>(
+      `/location/${locationId}`
+    );
+    return Location.fromJSON(response.data);
+  }
+
   async updateLocation(location: LocationUpdateRequest): Promise<void> {
     await this.httpClient.post<JsonType>(`/location/${location.id}`, location);
   }
