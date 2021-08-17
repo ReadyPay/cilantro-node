@@ -10,6 +10,7 @@ import { Adjustment } from "./models/adjustment";
 import { Location } from "./models/location";
 import { LocationCreateRequest } from "./requests/location-create.request";
 import { LocationUpdateRequest } from "./requests/location-update.request";
+import { ItemCreateRequest } from "./requests/item-create.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -47,6 +48,14 @@ export class Cilantro {
   }
 
   // Items
+
+  async createItem(item: ItemCreateRequest): Promise<Item> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${item.locationId}/item`,
+      item
+    );
+    return Item.fromJSON(response.data);
+  }
 
   async getItem(locationId: number, itemId: number): Promise<Item> {
     const response = await this.httpClient.get<JsonType>(
