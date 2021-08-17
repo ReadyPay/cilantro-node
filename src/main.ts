@@ -12,6 +12,7 @@ import { LocationCreateRequest } from "./requests/location-create.request";
 import { LocationUpdateRequest } from "./requests/location-update.request";
 import { ItemCreateRequest } from "./requests/item-create.request";
 import { ItemUpdateRequest } from "./requests/item-update.request";
+import { TableCreateRequest } from "./requests/table-create.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -89,6 +90,14 @@ export class Cilantro {
   }
 
   // Tables
+
+  async createTable(table: TableCreateRequest): Promise<Table> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${table.locationId}/table`,
+      table
+    );
+    return Table.fromJSON(response.data);
+  }
 
   async getTable(locationId: number, tableId: number): Promise<Table> {
     const response = await this.httpClient.get<JsonType>(
