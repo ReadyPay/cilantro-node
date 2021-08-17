@@ -13,6 +13,7 @@ import { LocationUpdateRequest } from "./requests/location-update.request";
 import { ItemCreateRequest } from "./requests/item-create.request";
 import { ItemUpdateRequest } from "./requests/item-update.request";
 import { TableCreateRequest } from "./requests/table-create.request";
+import { TableUpdateRequest } from "./requests/table-update.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -104,6 +105,13 @@ export class Cilantro {
       `/location/${locationId}/table/${tableId}`
     );
     return Table.fromJSON(response.data);
+  }
+
+  async updateTable(table: TableUpdateRequest): Promise<void> {
+    await this.httpClient.post<JsonType>(
+      `/location/${table.locationId}/table/${table.id}`,
+      table
+    );
   }
 
   async getTables(locationId: number): Promise<Table[]> {
