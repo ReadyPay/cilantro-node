@@ -19,6 +19,9 @@ import { AdjustmentUpdateRequest } from "./requests/adjustment-update.request";
 import { TaxRate } from "./models/taxRate";
 import { TaxRateCreateRequest } from "./requests/taxRate-create.request";
 import { TaxRateUpdateRequest } from "./requests/taxRate-update.request";
+import { PaymentTender } from "./models/paymentTender";
+import { PaymentTenderUpdateRequest } from "./requests/paymentTender-update.request";
+import { PaymentTenderCreateRequest } from "./requests/paymentTender-create.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -208,6 +211,44 @@ export class Cilantro {
   }
 
   // Payment Tenders
+
+  async createPaymentTender(
+    paymentTender: PaymentTenderCreateRequest
+  ): Promise<PaymentTender> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${paymentTender.locationId}/payment-tender`,
+      paymentTender
+    );
+    return PaymentTender.fromJson(response.data);
+  }
+
+  async getPaymentTender(
+    locationId: number,
+    paymentTenderId: number
+  ): Promise<PaymentTender> {
+    const response = await this.httpClient.get<JsonType>(
+      `/location/${locationId}/payment-tender/${paymentTenderId}`
+    );
+    return PaymentTender.fromJson(response.data);
+  }
+
+  async updatePaymentTender(
+    paymentTender: PaymentTenderUpdateRequest
+  ): Promise<void> {
+    await this.httpClient.post<JsonType>(
+      `/location/${paymentTender.locationId}/payment-tender/${paymentTender.id}`,
+      paymentTender
+    );
+  }
+
+  async deletePaymentTender(
+    locationId: number,
+    paymentTenderId: number
+  ): Promise<void> {
+    await this.httpClient.delete<JsonType>(
+      `/location/${locationId}/payment-tender/${paymentTenderId}`
+    );
+  }
 
   // Orders
 
