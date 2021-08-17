@@ -21,12 +21,18 @@ export class Cilantro {
     this.httpClient = new HttpClient(this.apiKey, this.apiUrl);
   }
 
+  // Locations
+
+  // Items
+
   async getItems(locationId: number): Promise<Item[]> {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/items`
     );
     return response.data.map((record) => Item.fromJSON(record));
   }
+
+  // Tables
 
   async getTable(locationId: number, tableId: number): Promise<Table> {
     const response = await this.httpClient.get<JsonType>(
@@ -41,6 +47,8 @@ export class Cilantro {
     );
     return response.data.map((record) => Table.fromJSON(record));
   }
+
+  // Adjustments
 
   async getAdjustment(
     locationId: number,
@@ -58,6 +66,12 @@ export class Cilantro {
     );
     return response.data.map((record) => Adjustment.fromJSON(record));
   }
+
+  // Tax Rates
+
+  // Payment Tenders
+
+  // Orders
 
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
     const response = await this.httpClient.post<JsonType>(
