@@ -114,6 +114,12 @@ export class Cilantro {
     );
   }
 
+  async deleteTable(locationId: number, tableId: number): Promise<void> {
+    await this.httpClient.delete<JsonType>(
+      `/location/${locationId}/table/${tableId}`
+    );
+  }
+
   async getTables(locationId: number): Promise<Table[]> {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/tables`
