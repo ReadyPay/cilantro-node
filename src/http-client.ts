@@ -21,22 +21,22 @@ export class HttpClient {
   }
 
   async get<T>(path: string): Promise<HttpResponse<T>> {
-    return this.formatHttpResponse(await this.client.get<T>(path));
+    return this.formatResponse(await this.client.get<T>(path));
   }
 
   async post<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
-    return this.formatHttpResponse(await this.client.post<T>(path, data));
+    return this.formatResponse(await this.client.post<T>(path, data));
   }
 
   async patch<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
-    return this.formatHttpResponse(await this.client.patch<T>(path, data));
+    return this.formatResponse(await this.client.patch<T>(path, data));
   }
 
   async delete<T>(path: string): Promise<HttpResponse<T>> {
-    return this.formatHttpResponse(await this.client.delete<T>(path));
+    return this.formatResponse(await this.client.delete<T>(path));
   }
 
-  private formatHttpResponse<T>(res: AxiosResponse<T>): HttpResponse<T> {
+  private formatResponse<T>(res: AxiosResponse<T>): HttpResponse<T> {
     return {
       data: res.data,
       status: res.status,
