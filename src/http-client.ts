@@ -45,9 +45,9 @@ export class HttpClient {
     if (
       typeof data === "object" &&
       data !== null &&
-      typeof (data as JsonSerializer).toJSON === "function"
+      typeof (data as JsonSerializer).toJson === "function"
     ) {
-      return (data as JsonSerializer).toJSON();
+      return (data as JsonSerializer).toJson();
     }
   }
 

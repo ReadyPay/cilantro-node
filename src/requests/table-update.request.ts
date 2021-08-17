@@ -12,7 +12,7 @@ export class TableUpdateRequest implements JsonSerializer {
     readonly yCoordinate?: number
   ) {}
 
-  toJSON(): JsonType {
+  toJson(): JsonType {
     return {
       id: this.id,
       location_id: this.locationId,

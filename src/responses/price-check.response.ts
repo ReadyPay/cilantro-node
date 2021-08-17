@@ -10,7 +10,7 @@ export class PriceCheckResponse {
     readonly paymentDue: number
   ) {}
 
-  static fromJSON(d: string | JsonType): PriceCheckResponse {
+  static fromJson(d: string | JsonType): PriceCheckResponse {
     if (typeof d === "string") {
       d = JSON.parse(d) as JsonType;
     }

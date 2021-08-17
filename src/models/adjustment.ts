@@ -22,12 +22,12 @@ export class Adjustment extends Model {
     super(id, createdAt, updatedAt);
   }
 
-  static fromJSON(d: string | JsonType): Adjustment {
+  static fromJson(d: string | JsonType): Adjustment {
     if (typeof d === "string") {
       d = JSON.parse(d) as JsonType;
     }
     return new Adjustment(
-      ...Model.extractPropsFromJSON(d),
+      ...Model.extractPropsfromJson(d),
       extractNumber(d, "location_id"),
       extractString(d, "name"),
       extractNumber(d, "value"),

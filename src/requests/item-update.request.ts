@@ -16,7 +16,7 @@ export class ItemUpdateRequest implements JsonSerializer {
     readonly alcohol?: boolean
   ) {}
 
-  toJSON(): JsonType {
+  toJson(): JsonType {
     return {
       id: this.id,
       location_id: this.locationId,

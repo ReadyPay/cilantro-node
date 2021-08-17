@@ -15,7 +15,7 @@ export class ItemCreateRequest implements JsonSerializer {
     readonly alcohol?: boolean
   ) {}
 
-  toJSON(): JsonType {
+  toJson(): JsonType {
     return {
       location_id: this.locationId,
       tax_rate_id: this.taxRateId,

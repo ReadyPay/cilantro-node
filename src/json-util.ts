@@ -2,12 +2,12 @@ export type JsonType = Record<string, unknown>;
 
 // This is implemented implicitly due to the nature of the static keyword.
 export interface JsonDeserializer<T> {
-  fromJSON(d: string | JsonType): T;
+  fromJson(d: string | JsonType): T;
 }
 
 // Classes will naturally serialize to JSON, but those that require name conversions to snake case will implement this.
 export interface JsonSerializer {
-  toJSON(): JsonType;
+  toJson(): JsonType;
 }
 
 export function extractNumber(data: JsonType, k: string): number {
@@ -47,7 +47,7 @@ export function extractNestedModel<T>(
   nestedModelType: JsonDeserializer<T> & { name: string }
 ): T {
   if (typeof data[k] === "object" && data[k] !== null) {
-    return nestedModelType.fromJSON(data[k] as JsonType);
+    return nestedModelType.fromJson(data[k] as JsonType);
   }
   throw new Error(
     `Unexpected JSON unmarshal failure for ${nestedModelType.name}`
@@ -60,7 +60,7 @@ export function extractNullableNestedModel<T>(
   nestedModelType: JsonDeserializer<T>
 ): T | null {
   if (typeof data[k] === "object" && data[k] !== null) {
-    return nestedModelType.fromJSON(data[k] as JsonType);
+    return nestedModelType.fromJson(data[k] as JsonType);
   }
   return null;
 }

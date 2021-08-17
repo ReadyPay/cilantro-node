@@ -28,12 +28,12 @@ export class Item extends Model {
     super(id, createdAt, updatedAt);
   }
 
-  static fromJSON(d: string | JsonType): Item {
+  static fromJson(d: string | JsonType): Item {
     if (typeof d === "string") {
       d = JSON.parse(d) as JsonType;
     }
     return new Item(
-      ...Model.extractPropsFromJSON(d),
+      ...Model.extractPropsfromJson(d),
       extractNumber(d, "location_id"),
       extractBool(d, "enabled"),
       extractString(d, "name"),

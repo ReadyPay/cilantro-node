@@ -13,11 +13,11 @@ export class SubmitOrderRequest implements JsonSerializer {
     readonly tipAmount?: number
   ) {}
 
-  toJSON(): JsonType {
+  toJson(): JsonType {
     return {
       items: this.items,
       adjustments: this.adjustments,
-      payments: this.payments?.map((p) => p.toJSON()),
+      payments: this.payments?.map((p) => p.toJson()),
       tip_amount: this.tipAmount,
     };
   }

@@ -20,12 +20,12 @@ export class Table extends Model {
     super(id, createdAt, updatedAt);
   }
 
-  static fromJSON(d: string | JsonType): Table {
+  static fromJson(d: string | JsonType): Table {
     if (typeof d === "string") {
       d = JSON.parse(d) as JsonType;
     }
     return new Table(
-      ...Model.extractPropsFromJSON(d),
+      ...Model.extractPropsfromJson(d),
       extractNumber(d, "location_id"),
       extractString(d, "name"),
       extractNumber(d, "x_coordinate"),

@@ -11,11 +11,11 @@ export class PriceCheckRequest implements JsonSerializer {
     readonly payments?: PaymentRequest[]
   ) {}
 
-  toJSON(): JsonType {
+  toJson(): JsonType {
     return {
       items: this.items,
       adjustments: this.adjustments,
-      payments: this.payments?.map((p) => p.toJSON()),
+      payments: this.payments?.map((p) => p.toJson()),
     };
   }
 }

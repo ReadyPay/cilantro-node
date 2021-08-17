@@ -7,7 +7,7 @@ export class SubmitOrderResponse {
     readonly priceCheck: PriceCheckResponse
   ) {}
 
-  static fromJSON(d: string | JsonType): SubmitOrderResponse {
+  static fromJson(d: string | JsonType): SubmitOrderResponse {
     if (typeof d === "string") {
       d = JSON.parse(d) as JsonType;
     }

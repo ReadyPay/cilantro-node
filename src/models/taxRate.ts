@@ -13,12 +13,12 @@ export class TaxRate extends Model {
     super(id, createdAt, updatedAt);
   }
 
-  static fromJSON(d: string | JsonType): TaxRate {
+  static fromJson(d: string | JsonType): TaxRate {
     if (typeof d === "string") {
       d = JSON.parse(d) as JsonType;
     }
     return new TaxRate(
-      ...Model.extractPropsFromJSON(d),
+      ...Model.extractPropsfromJson(d),
       extractNumber(d, "location_id"),
       extractString(d, "name"),
       extractNumber(d, "rate")

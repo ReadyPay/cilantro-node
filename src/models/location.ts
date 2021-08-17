@@ -12,12 +12,12 @@ export class Location extends Model {
     super(id, createdAt, updatedAt);
   }
 
-  static fromJSON(d: string | JsonType): Location {
+  static fromJson(d: string | JsonType): Location {
     if (typeof d === "string") {
       d = JSON.parse(d) as JsonType;
     }
     return new Location(
-      ...Model.extractPropsFromJSON(d),
+      ...Model.extractPropsfromJson(d),
       extractString(d, "name"),
       extractString(d, "address")
     );

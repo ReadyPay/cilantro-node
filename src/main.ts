@@ -37,14 +37,14 @@ export class Cilantro {
       "/location",
       location
     );
-    return Location.fromJSON(response.data);
+    return Location.fromJson(response.data);
   }
 
   async getLocation(locationId: number): Promise<Location> {
     const response = await this.httpClient.get<JsonType>(
       `/location/${locationId}`
     );
-    return Location.fromJSON(response.data);
+    return Location.fromJson(response.data);
   }
 
   async updateLocation(location: LocationUpdateRequest): Promise<void> {
@@ -62,14 +62,14 @@ export class Cilantro {
       `/location/${item.locationId}/item`,
       item
     );
-    return Item.fromJSON(response.data);
+    return Item.fromJson(response.data);
   }
 
   async getItem(locationId: number, itemId: number): Promise<Item> {
     const response = await this.httpClient.get<JsonType>(
       `/location/${locationId}/item/${itemId}`
     );
-    return Item.fromJSON(response.data);
+    return Item.fromJson(response.data);
   }
 
   async updateItem(item: ItemUpdateRequest): Promise<void> {
@@ -89,7 +89,7 @@ export class Cilantro {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/items`
     );
-    return response.data.map((record) => Item.fromJSON(record));
+    return response.data.map((record) => Item.fromJson(record));
   }
 
   // Tables
@@ -99,14 +99,14 @@ export class Cilantro {
       `/location/${table.locationId}/table`,
       table
     );
-    return Table.fromJSON(response.data);
+    return Table.fromJson(response.data);
   }
 
   async getTable(locationId: number, tableId: number): Promise<Table> {
     const response = await this.httpClient.get<JsonType>(
       `/location/${locationId}/table/${tableId}`
     );
-    return Table.fromJSON(response.data);
+    return Table.fromJson(response.data);
   }
 
   async updateTable(table: TableUpdateRequest): Promise<void> {
@@ -126,7 +126,7 @@ export class Cilantro {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/tables`
     );
-    return response.data.map((record) => Table.fromJSON(record));
+    return response.data.map((record) => Table.fromJson(record));
   }
 
   // Adjustments
@@ -138,7 +138,7 @@ export class Cilantro {
       `/location/${adjustment.locationId}/adjustment`,
       adjustment
     );
-    return Adjustment.fromJSON(response.data);
+    return Adjustment.fromJson(response.data);
   }
 
   async getAdjustment(
@@ -148,7 +148,7 @@ export class Cilantro {
     const response = await this.httpClient.get<JsonType>(
       `/location/${locationId}/adjustment/${adjustmentId}`
     );
-    return Adjustment.fromJSON(response.data);
+    return Adjustment.fromJson(response.data);
   }
 
   async updateAdjustment(adjustment: AdjustmentUpdateRequest): Promise<void> {
@@ -171,7 +171,7 @@ export class Cilantro {
     const response = await this.httpClient.get<JsonType[]>(
       `/location/${locationId}/adjustments`
     );
-    return response.data.map((record) => Adjustment.fromJSON(record));
+    return response.data.map((record) => Adjustment.fromJson(record));
   }
 
   // Tax Rates
@@ -185,7 +185,7 @@ export class Cilantro {
       `/location/${request.locationId}/price-check`,
       request
     );
-    return PriceCheckResponse.fromJSON(response.data);
+    return PriceCheckResponse.fromJson(response.data);
   }
 
   async submitOrder(request: SubmitOrderRequest): Promise<SubmitOrderResponse> {
@@ -193,6 +193,6 @@ export class Cilantro {
       `/location/${request.locationId}/table/${request.tableId}/order`,
       request
     );
-    return SubmitOrderResponse.fromJSON(response.data);
+    return SubmitOrderResponse.fromJson(response.data);
   }
 }

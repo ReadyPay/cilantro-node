@@ -11,7 +11,7 @@ export class TableCreateRequest implements JsonSerializer {
     readonly yCoordinate?: number
   ) {}
 
-  toJSON(): JsonType {
+  toJson(): JsonType {
     return {
       location_id: this.locationId,
       shape: this.shape,

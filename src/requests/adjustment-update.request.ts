@@ -7,7 +7,7 @@ export class AdjustmentUpdateRequest implements JsonSerializer {
     readonly value: number
   ) {}
 
-  toJSON(): JsonType {
+  toJson(): JsonType {
     return {
       id: this.id,
       location_id: this.locationId,
