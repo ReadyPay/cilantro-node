@@ -43,10 +43,7 @@ export class Cilantro {
   }
 
   async getLocation(locationId: number): Promise<Location> {
-    const response = await this.httpClient.get<JsonType>(
-      `/location/${locationId}`
-    );
-    return Location.fromJson(response.data);
+    return this.getOne(`/location/${locationId}`, Location);
   }
 
   async updateLocation(location: LocationUpdateRequest): Promise<void> {
@@ -64,10 +61,7 @@ export class Cilantro {
   }
 
   async getItem(locationId: number, itemId: number): Promise<Item> {
-    const response = await this.httpClient.get<JsonType>(
-      `/location/${locationId}/item/${itemId}`
-    );
-    return Item.fromJson(response.data);
+    return this.getOne(`/location/${locationId}/item/${itemId}`, Item);
   }
 
   async updateItem(item: ItemUpdateRequest): Promise<void> {
@@ -97,10 +91,7 @@ export class Cilantro {
   }
 
   async getTable(locationId: number, tableId: number): Promise<Table> {
-    const response = await this.httpClient.get<JsonType>(
-      `/location/${locationId}/table/${tableId}`
-    );
-    return Table.fromJson(response.data);
+    return this.getOne(`/location/${locationId}/table/${tableId}`, Table);
   }
 
   async updateTable(table: TableUpdateRequest): Promise<void> {
@@ -139,10 +130,10 @@ export class Cilantro {
     locationId: number,
     adjustmentId: number
   ): Promise<Adjustment> {
-    const response = await this.httpClient.get<JsonType>(
-      `/location/${locationId}/adjustment/${adjustmentId}`
+    return this.getOne(
+      `/location/${locationId}/adjustment/${adjustmentId}`,
+      Adjustment
     );
-    return Adjustment.fromJson(response.data);
   }
 
   async updateAdjustment(adjustment: AdjustmentUpdateRequest): Promise<void> {
@@ -179,10 +170,10 @@ export class Cilantro {
   }
 
   async getTaxRate(locationId: number, taxRateId: number): Promise<TaxRate> {
-    const response = await this.httpClient.get<JsonType>(
-      `/location/${locationId}/tax-rate/${taxRateId}`
+    return this.getOne(
+      `/location/${locationId}/tax-rate/${taxRateId}`,
+      TaxRate
     );
-    return TaxRate.fromJson(response.data);
   }
 
   async updateTaxRate(taxRate: TaxRateUpdateRequest): Promise<void> {
@@ -214,10 +205,10 @@ export class Cilantro {
     locationId: number,
     paymentTenderId: number
   ): Promise<PaymentTender> {
-    const response = await this.httpClient.get<JsonType>(
-      `/location/${locationId}/payment-tender/${paymentTenderId}`
+    return this.getOne(
+      `/location/${locationId}/payment-tender/${paymentTenderId}`,
+      PaymentTender
     );
-    return PaymentTender.fromJson(response.data);
   }
 
   async updatePaymentTender(
@@ -264,6 +255,14 @@ export class Cilantro {
     returnClass: JsonDeserializer<T>
   ): Promise<T> {
     const response = await this.httpClient.post<JsonType>(url, data);
+    return returnClass.fromJson(response.data);
+  }
+
+  private async getOne<T>(
+    url: string,
+    returnClass: JsonDeserializer<T>
+  ): Promise<T> {
+    const response = await this.httpClient.get<JsonType>(url);
     return returnClass.fromJson(response.data);
   }
 }
