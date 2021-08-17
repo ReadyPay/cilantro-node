@@ -14,6 +14,7 @@ import { ItemCreateRequest } from "./requests/item-create.request";
 import { ItemUpdateRequest } from "./requests/item-update.request";
 import { TableCreateRequest } from "./requests/table-create.request";
 import { TableUpdateRequest } from "./requests/table-update.request";
+import { AdjustmentCreateRequest } from "./requests/adjustment-create.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -128,6 +129,16 @@ export class Cilantro {
   }
 
   // Adjustments
+
+  async createAdjustment(
+    adjustment: AdjustmentCreateRequest
+  ): Promise<Adjustment> {
+    const response = await this.httpClient.post<JsonType>(
+      `/location/${adjustment.locationId}/adjustment`,
+      adjustment
+    );
+    return Adjustment.fromJSON(response.data);
+  }
 
   async getAdjustment(
     locationId: number,
