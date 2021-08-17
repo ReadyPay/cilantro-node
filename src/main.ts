@@ -1,6 +1,6 @@
 import { HttpClient } from "./http-client";
 import { Item } from "./models/item";
-import { JsonType } from "./json-util";
+import { JsonDeserializer, JsonSerializer, JsonType } from "./json-util";
 import { Table } from "./models/table";
 import { PriceCheckResponse } from "./responses/price-check.response";
 import { PriceCheckRequest } from "./requests/price-check.request";
@@ -39,11 +39,7 @@ export class Cilantro {
   // Locations
 
   async createLocation(location: LocationCreateRequest): Promise<Location> {
-    const response = await this.httpClient.post<JsonType>(
-      "/location",
-      location
-    );
-    return Location.fromJson(response.data);
+    return this.createOne("/location", location, Location);
   }
 
   async getLocation(locationId: number): Promise<Location> {
@@ -64,11 +60,7 @@ export class Cilantro {
   // Items
 
   async createItem(item: ItemCreateRequest): Promise<Item> {
-    const response = await this.httpClient.post<JsonType>(
-      `/location/${item.locationId}/item`,
-      item
-    );
-    return Item.fromJson(response.data);
+    return this.createOne(`/location/${item.locationId}/item`, item, Item);
   }
 
   async getItem(locationId: number, itemId: number): Promise<Item> {
@@ -101,11 +93,7 @@ export class Cilantro {
   // Tables
 
   async createTable(table: TableCreateRequest): Promise<Table> {
-    const response = await this.httpClient.post<JsonType>(
-      `/location/${table.locationId}/table`,
-      table
-    );
-    return Table.fromJson(response.data);
+    return this.createOne(`/location/${table.locationId}/table`, table, Table);
   }
 
   async getTable(locationId: number, tableId: number): Promise<Table> {
@@ -140,11 +128,11 @@ export class Cilantro {
   async createAdjustment(
     adjustment: AdjustmentCreateRequest
   ): Promise<Adjustment> {
-    const response = await this.httpClient.post<JsonType>(
+    return this.createOne(
       `/location/${adjustment.locationId}/adjustment`,
-      adjustment
+      adjustment,
+      Adjustment
     );
-    return Adjustment.fromJson(response.data);
   }
 
   async getAdjustment(
@@ -183,11 +171,11 @@ export class Cilantro {
   // Tax Rates
 
   async createTaxRate(taxRate: TaxRateCreateRequest): Promise<TaxRate> {
-    const response = await this.httpClient.post<JsonType>(
+    return this.createOne(
       `/location/${taxRate.locationId}/tax-rate`,
-      taxRate
+      taxRate,
+      TaxRate
     );
-    return TaxRate.fromJson(response.data);
   }
 
   async getTaxRate(locationId: number, taxRateId: number): Promise<TaxRate> {
@@ -215,11 +203,11 @@ export class Cilantro {
   async createPaymentTender(
     paymentTender: PaymentTenderCreateRequest
   ): Promise<PaymentTender> {
-    const response = await this.httpClient.post<JsonType>(
+    return this.createOne(
       `/location/${paymentTender.locationId}/payment-tender`,
-      paymentTender
+      paymentTender,
+      PaymentTender
     );
-    return PaymentTender.fromJson(response.data);
   }
 
   async getPaymentTender(
@@ -253,18 +241,29 @@ export class Cilantro {
   // Orders
 
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
-    const response = await this.httpClient.post<JsonType>(
+    return this.createOne(
       `/location/${request.locationId}/price-check`,
-      request
+      request,
+      PriceCheckResponse
     );
-    return PriceCheckResponse.fromJson(response.data);
   }
 
   async submitOrder(request: SubmitOrderRequest): Promise<SubmitOrderResponse> {
-    const response = await this.httpClient.post<JsonType>(
+    return this.createOne(
       `/location/${request.locationId}/table/${request.tableId}/order`,
-      request
+      request,
+      SubmitOrderResponse
     );
-    return SubmitOrderResponse.fromJson(response.data);
+  }
+
+  // Helpers
+
+  private async createOne<T>(
+    url: string,
+    data: unknown,
+    returnClass: JsonDeserializer<T>
+  ): Promise<T> {
+    const response = await this.httpClient.post<JsonType>(url, data);
+    return returnClass.fromJson(response.data);
   }
 }
