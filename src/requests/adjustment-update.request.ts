@@ -6,9 +6,9 @@ export interface AdjustmentUpdateFields {
 
 export class AdjustmentUpdateRequest implements JsonSerializer {
   constructor(
-    readonly id: number,
-    readonly locationId: number,
-    readonly fields: AdjustmentUpdateFields
+    public id: number,
+    public locationId: number,
+    public fields: AdjustmentUpdateFields
   ) {}
 
   toJson(): JsonType {

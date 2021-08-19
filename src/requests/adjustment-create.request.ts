@@ -1,7 +1,7 @@
 import { JsonSerializer, JsonType } from "../json-util";
 
 export class AdjustmentCreateRequest implements JsonSerializer {
-  constructor(readonly locationId: number, readonly value: number) {}
+  constructor(public locationId: number, public value: number) {}
 
   toJson(): JsonType {
     return {

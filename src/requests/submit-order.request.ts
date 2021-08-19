@@ -5,12 +5,12 @@ import { PaymentRequest } from "./payment.request";
 
 export class SubmitOrderRequest implements JsonSerializer {
   constructor(
-    readonly locationId: number,
-    readonly tableId: number,
-    readonly items?: ItemRequest[],
-    readonly adjustments?: AdjustmentRequest[],
-    readonly payments?: PaymentRequest[],
-    readonly tipAmount?: number
+    public locationId: number,
+    public tableId: number,
+    public items?: ItemRequest[],
+    public adjustments?: AdjustmentRequest[],
+    public payments?: PaymentRequest[],
+    public tipAmount?: number
   ) {}
 
   toJson(): JsonType {

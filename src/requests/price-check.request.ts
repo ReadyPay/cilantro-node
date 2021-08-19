@@ -5,10 +5,10 @@ import { JsonSerializer, JsonType } from "../json-util";
 
 export class PriceCheckRequest implements JsonSerializer {
   constructor(
-    readonly locationId: number,
-    readonly items?: ItemRequest[],
-    readonly adjustments?: AdjustmentRequest[],
-    readonly payments?: PaymentRequest[]
+    public locationId: number,
+    public items?: ItemRequest[],
+    public adjustments?: AdjustmentRequest[],
+    public payments?: PaymentRequest[]
   ) {}
 
   toJson(): JsonType {

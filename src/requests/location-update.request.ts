@@ -6,7 +6,7 @@ export interface LocationUpdateFields {
 }
 
 export class LocationUpdateRequest implements JsonSerializer {
-  constructor(readonly id: number, readonly fields: LocationUpdateFields) {}
+  constructor(public id: number, public fields: LocationUpdateFields) {}
 
   toJson(): JsonType {
     return {

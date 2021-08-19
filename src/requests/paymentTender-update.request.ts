@@ -6,9 +6,9 @@ export interface PaymentTenderUpdateFields {
 
 export class PaymentTenderUpdateRequest implements JsonSerializer {
   constructor(
-    readonly id: number,
-    readonly locationId: number,
-    readonly fields: PaymentTenderUpdateFields
+    public id: number,
+    public locationId: number,
+    public fields: PaymentTenderUpdateFields
   ) {}
 
   toJson(): JsonType {

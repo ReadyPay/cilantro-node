@@ -1,7 +1,7 @@
 import { JsonSerializer, JsonType } from "../json-util";
 
 export class PaymentTenderCreateRequest implements JsonSerializer {
-  constructor(readonly locationId: number, readonly name: string) {}
+  constructor(public locationId: number, public name: string) {}
 
   toJson(): JsonType {
     return {

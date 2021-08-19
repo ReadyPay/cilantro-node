@@ -3,16 +3,16 @@ import { ItemType } from "../models/item";
 
 export class ItemCreateRequest implements JsonSerializer {
   constructor(
-    readonly locationId: number,
-    readonly taxRateId: number,
-    readonly type: ItemType,
+    public locationId: number,
+    public taxRateId: number,
+    public type: ItemType,
 
-    readonly enabled?: boolean,
-    readonly name?: string,
-    readonly description?: string,
-    readonly imageUrl?: string,
-    readonly price?: number,
-    readonly alcohol?: boolean
+    public enabled?: boolean,
+    public name?: string,
+    public description?: string,
+    public imageUrl?: string,
+    public price?: number,
+    public alcohol?: boolean
   ) {}
 
   toJson(): JsonType {

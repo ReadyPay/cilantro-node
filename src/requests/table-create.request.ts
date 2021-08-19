@@ -3,12 +3,12 @@ import { JsonSerializer, JsonType } from "../json-util";
 
 export class TableCreateRequest implements JsonSerializer {
   constructor(
-    readonly locationId: number,
-    readonly shape: TableShape,
+    public locationId: number,
+    public shape: TableShape,
 
-    readonly name?: string,
-    readonly xCoordinate?: number,
-    readonly yCoordinate?: number
+    public name?: string,
+    public xCoordinate?: number,
+    public yCoordinate?: number
   ) {}
 
   toJson(): JsonType {

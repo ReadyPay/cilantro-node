@@ -10,9 +10,9 @@ export interface TableUpdateFields {
 
 export class TableUpdateRequest implements JsonSerializer {
   constructor(
-    readonly id: number,
-    readonly locationId: number,
-    readonly fields: TableUpdateFields
+    public id: number,
+    public locationId: number,
+    public fields: TableUpdateFields
   ) {}
 
   toJson(): JsonType {

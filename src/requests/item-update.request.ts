@@ -14,9 +14,9 @@ export interface ItemUpdateFields {
 
 export class ItemUpdateRequest implements JsonSerializer {
   constructor(
-    readonly id: number,
-    readonly locationId: number,
-    readonly fields: ItemUpdateFields
+    public id: number,
+    public locationId: number,
+    public fields: ItemUpdateFields
   ) {}
 
   toJson(): JsonType {

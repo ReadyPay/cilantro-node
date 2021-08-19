@@ -2,10 +2,10 @@ import { JsonSerializer, JsonType } from "../json-util";
 
 export class TaxRateCreateRequest implements JsonSerializer {
   constructor(
-    readonly locationId: number,
+    public locationId: number,
 
-    readonly name?: string,
-    readonly rate?: number
+    public name?: string,
+    public rate?: number
   ) {}
 
   toJson(): JsonType {

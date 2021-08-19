@@ -7,9 +7,9 @@ export interface TaxRateUpdateFields {
 
 export class TaxRateUpdateRequest {
   constructor(
-    readonly id: number,
-    readonly locationId: number,
-    readonly fields: TaxRateUpdateFields
+    public id: number,
+    public locationId: number,
+    public fields: TaxRateUpdateFields
   ) {}
 
   toJson(): JsonType {
