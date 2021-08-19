@@ -1,5 +1,5 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { JsonSerializer } from "./json-util";
+import { JsonSerializer, JsonType } from "./json-util";
 
 interface HttpResponse<T> {
   data: T;
@@ -41,7 +41,7 @@ export class HttpClient {
     return this.formatResponse(await this.client.delete<T>(path));
   }
 
-  private formatRequestData(data: unknown) {
+  private formatRequestData(data: unknown): JsonType {
     if (
       typeof data === "object" &&
       data !== null &&
@@ -49,6 +49,7 @@ export class HttpClient {
     ) {
       return (data as JsonSerializer).toJson();
     }
+    return data as JsonType;
   }
 
   private formatResponse<T>(res: AxiosResponse<T>): HttpResponse<T> {
