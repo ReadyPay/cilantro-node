@@ -80,7 +80,7 @@ describe("items", () => {
       "test desc",
       undefined,
       2.5,
-      false
+      true
     );
     createdItem = await cilantro.createItem(req);
     expect(createdItem.id).toBeGreaterThan(0);
@@ -110,22 +110,26 @@ describe("items", () => {
   });
 
   test("update", async () => {
-    const req = new ItemUpdateRequest(
-      createdItem.id,
-      dummyLocation.id,
-      undefined,
-      ItemType.Modifier,
-      false,
-      ""
-    );
+    const req = new ItemUpdateRequest(createdItem.id, dummyLocation.id, {
+      type: ItemType.Modifier,
+      enabled: false,
+      name: "",
+      description: "123 desc",
+      imageUrl: "my image url",
+      alcohol: false,
+    });
     await cilantro.updateItem(req);
     const readItem = await cilantro.getItem(dummyLocation.id, req.id);
     expect(readItem.id).toBe(req.id);
     expect(readItem.locationId).toBe(req.locationId);
     expect(readItem.taxRateId).toBe(createdItem.taxRateId);
-    expect(readItem.type).toBe(req.type);
-    expect(readItem.enabled).toBe(req.enabled);
-    expect(readItem.name).toBe(req.name);
+    expect(readItem.type).toBe(req.fields.type);
+    expect(readItem.enabled).toBe(req.fields.enabled);
+    expect(readItem.name).toBe(req.fields.name);
+    expect(readItem.description).toBe(req.fields.description);
+    expect(readItem.imageUrl).toBe(req.fields.imageUrl);
+    expect(readItem.price).toBe(createdItem.price);
+    expect(readItem.alcohol).toBe(req.fields.alcohol);
   });
 
   test("delete", async () => {
