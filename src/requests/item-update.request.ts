@@ -5,9 +5,9 @@ export class ItemUpdateRequest implements JsonSerializer {
   constructor(
     readonly id: number,
     readonly locationId: number,
-    readonly taxRateId: number,
-    readonly type: ItemType,
 
+    readonly taxRateId?: number,
+    readonly type?: ItemType,
     readonly enabled?: boolean,
     readonly name?: string,
     readonly description?: string,

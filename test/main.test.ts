@@ -1,19 +1,33 @@
 import { Cilantro } from "../src/main";
 import * as dotenv from "dotenv";
-import { PriceCheckRequest } from "../src/requests/price-check.request";
-import { ItemRequest } from "../src/requests/item.request";
-import { AdjustmentRequest } from "../src/requests/adjustment.request";
-import { PaymentRequest } from "../src/requests/payment.request";
-import { SubmitOrderRequest } from "../src/requests/submit-order.request";
 import { Location } from "../src/models/location";
 import { LocationCreateRequest } from "../src/requests/location-create.request";
 import { LocationUpdateRequest } from "../src/requests/location-update.request";
+import { ItemUpdateRequest } from "../src/requests/item-update.request";
+import { ItemCreateRequest } from "../src/requests/item-create.request";
+import { Item, ItemType } from "../src/models/item";
+import { TaxRate } from "../src/models/taxRate";
+import { TaxRateCreateRequest } from "../src/requests/taxRate-create.request";
 
 dotenv.config();
 
 let cilantro: Cilantro;
-beforeAll(() => {
+
+let dummyLocation: Location;
+let dummyTaxRate: TaxRate;
+
+beforeAll(async () => {
   cilantro = new Cilantro(process.env.KEY ?? "", process.env.URL ?? "");
+
+  dummyLocation = await cilantro.createLocation(new LocationCreateRequest());
+  dummyTaxRate = await cilantro.createTaxRate(
+    new TaxRateCreateRequest(dummyLocation.id)
+  );
+});
+
+afterAll(async () => {
+  await cilantro.deleteTaxRate(dummyLocation.id, dummyTaxRate.id);
+  await cilantro.deleteLocation(dummyLocation.id);
 });
 
 describe("locations", () => {
@@ -47,6 +61,77 @@ describe("locations", () => {
     await cilantro.deleteLocation(createdLocation.id);
     try {
       await cilantro.getLocation(createdLocation.id);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+});
+
+describe("items", () => {
+  let createdItem: Item;
+
+  test("create", async () => {
+    const req = new ItemCreateRequest(
+      dummyLocation.id,
+      dummyTaxRate.id,
+      ItemType.Item,
+      true,
+      "test item",
+      "test desc",
+      undefined,
+      2.5,
+      false
+    );
+    createdItem = await cilantro.createItem(req);
+    expect(createdItem.id).toBeGreaterThan(0);
+    expect(createdItem.locationId).toBe(req.locationId);
+    expect(createdItem.taxRateId).toBe(req.taxRateId);
+    expect(createdItem.type).toBe(req.type);
+    expect(createdItem.enabled).toBe(req.enabled);
+    expect(createdItem.name).toBe(req.name);
+    expect(createdItem.description).toBe(req.description);
+    expect(createdItem.imageUrl).toBe("");
+    expect(createdItem.price).toBe(req.price);
+    expect(createdItem.alcohol).toBe(req.alcohol);
+  });
+
+  test("read", async () => {
+    const readItem = await cilantro.getItem(dummyLocation.id, createdItem.id);
+    expect(readItem.id).toBe(createdItem.id);
+    expect(readItem.locationId).toBe(createdItem.locationId);
+    expect(readItem.taxRateId).toBe(createdItem.taxRateId);
+    expect(readItem.type).toBe(createdItem.type);
+    expect(readItem.enabled).toBe(createdItem.enabled);
+    expect(readItem.name).toBe(createdItem.name);
+    expect(readItem.description).toBe(createdItem.description);
+    expect(readItem.imageUrl).toBe(createdItem.imageUrl);
+    expect(readItem.price).toBe(createdItem.price);
+    expect(readItem.alcohol).toBe(createdItem.alcohol);
+  });
+
+  test("update", async () => {
+    const req = new ItemUpdateRequest(
+      createdItem.id,
+      dummyLocation.id,
+      undefined,
+      ItemType.Modifier,
+      false,
+      ""
+    );
+    await cilantro.updateItem(req);
+    const readItem = await cilantro.getItem(dummyLocation.id, req.id);
+    expect(readItem.id).toBe(req.id);
+    expect(readItem.locationId).toBe(req.locationId);
+    expect(readItem.taxRateId).toBe(createdItem.taxRateId);
+    expect(readItem.type).toBe(req.type);
+    expect(readItem.enabled).toBe(req.enabled);
+    expect(readItem.name).toBe(req.name);
+  });
+
+  test("delete", async () => {
+    await cilantro.deleteItem(dummyLocation.id, createdItem.id);
+    try {
+      await cilantro.getItem(dummyLocation.id, createdItem.id);
     } catch (e) {
       expect(e).toBeDefined();
     }
