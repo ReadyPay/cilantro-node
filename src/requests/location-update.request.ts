@@ -1,8 +1,18 @@
-export class LocationUpdateRequest {
-  constructor(
-    readonly id: number,
+import { JsonSerializer, JsonType } from "../json-util";
 
-    readonly name?: string,
-    readonly address?: string
-  ) {}
+export interface LocationUpdateFields {
+  name?: string;
+  address?: string;
+}
+
+export class LocationUpdateRequest implements JsonSerializer {
+  constructor(readonly id: number, readonly fields: LocationUpdateFields) {}
+
+  toJson(): JsonType {
+    return {
+      id: this.id,
+      name: this.fields.name,
+      address: this.fields.address,
+    };
+  }
 }

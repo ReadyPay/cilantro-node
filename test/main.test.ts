@@ -49,12 +49,15 @@ describe("locations", () => {
   });
 
   test("update", async () => {
-    const req = new LocationUpdateRequest(createdLocation.id, "foo", "bar");
+    const req = new LocationUpdateRequest(createdLocation.id, {
+      name: "foo",
+      address: "bar",
+    });
     await cilantro.updateLocation(req);
     const readLocation = await cilantro.getLocation(req.id);
     expect(readLocation.id).toBe(req.id);
-    expect(readLocation.name).toBe(req.name);
-    expect(readLocation.address).toBe(req.address);
+    expect(readLocation.name).toBe(req.fields.name);
+    expect(readLocation.address).toBe(req.fields.address);
   });
 
   test("delete", async () => {
