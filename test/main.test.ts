@@ -17,6 +17,8 @@ import {
   AdjustmentType,
   CalculationPhase,
 } from "../src/models/adjustment";
+import { TaxRateUpdateRequest } from "../src/requests/taxRate-update.request";
+import { TaxRateCreateRequest } from "../src/requests/taxRate-create.request";
 
 dotenv.config();
 
@@ -298,6 +300,57 @@ describe("adjustments", () => {
     await cilantro.deleteAdjustment(dummyLocation.id, createdAdjustment.id);
     try {
       await cilantro.getAdjustment(dummyLocation.id, createdAdjustment.id);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+});
+
+describe("taxRates", () => {
+  let createdTaxRate: TaxRate;
+
+  test("create", async () => {
+    const req: TaxRateCreateRequest = {
+      locationId: dummyLocation.id,
+      name: "foo",
+      rate: 0.65,
+    };
+    createdTaxRate = await cilantro.createTaxRate(req);
+    expect(createdTaxRate.id).toBeGreaterThan(0);
+    expect(createdTaxRate.locationId).toBe(req.locationId);
+    expect(createdTaxRate.name).toBe(req.name);
+    expect(createdTaxRate.rate).toBe(req.rate);
+  });
+
+  test("read", async () => {
+    const readTaxRate = await cilantro.getTaxRate(
+      dummyLocation.id,
+      createdTaxRate.id
+    );
+    expect(readTaxRate.id).toBe(createdTaxRate.id);
+    expect(readTaxRate.locationId).toBe(createdTaxRate.locationId);
+    expect(readTaxRate.name).toBe(createdTaxRate.name);
+    expect(readTaxRate.rate).toBe(createdTaxRate.rate);
+  });
+
+  test("update", async () => {
+    const req: TaxRateUpdateRequest = {
+      id: createdTaxRate.id,
+      locationId: dummyLocation.id,
+      rate: 0,
+    };
+    await cilantro.updateTaxRate(req);
+    const readTaxRate = await cilantro.getTaxRate(dummyLocation.id, req.id);
+    expect(readTaxRate.id).toBe(createdTaxRate.id);
+    expect(readTaxRate.locationId).toBe(createdTaxRate.locationId);
+    expect(readTaxRate.name).toBe(createdTaxRate.name);
+    expect(readTaxRate.rate).toBe(req.rate);
+  });
+
+  test("delete", async () => {
+    await cilantro.deleteTaxRate(dummyLocation.id, createdTaxRate.id);
+    try {
+      await cilantro.getTaxRate(dummyLocation.id, createdTaxRate.id);
     } catch (e) {
       expect(e).toBeDefined();
     }
