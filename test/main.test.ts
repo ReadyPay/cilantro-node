@@ -10,6 +10,13 @@ import { TaxRate } from "../src/models/taxRate";
 import { Table, TableShape } from "../src/models/table";
 import { TableCreateRequest } from "../src/requests/table-create.request";
 import { TableUpdateRequest } from "../src/requests/table-update.request";
+import { AdjustmentUpdateRequest } from "../src/requests/adjustment-update.request";
+import { AdjustmentCreateRequest } from "../src/requests/adjustment-create.request";
+import {
+  Adjustment,
+  AdjustmentType,
+  CalculationPhase,
+} from "../src/models/adjustment";
 
 dotenv.config();
 
@@ -221,26 +228,82 @@ describe("tables", () => {
   });
 });
 
-//
-// test("getTables", async () => {
-//   console.log("getTables:", (await cilantro.getTables(1)).slice(0, 1));
-// });
-//
-// test("getTable", async () => {
-//   console.log("getTable:", await cilantro.getTable(1, 1));
-// });
-//
-// test("getAdjustments", async () => {
-//   console.log(
-//     "getAdjustments:",
-//     (await cilantro.getAdjustments(1)).slice(0, 1)
-//   );
-// });
-//
-// test("getAdjustment", async () => {
-//   console.log("getAdjustment:", await cilantro.getAdjustment(1, 2));
-// });
-//
+describe("adjustments", () => {
+  let createdAdjustment: Adjustment;
+
+  test("create", async () => {
+    const req: AdjustmentCreateRequest = {
+      locationId: dummyLocation.id,
+      type: AdjustmentType.Amount,
+      calculationPhase: CalculationPhase.AfterTax,
+      name: "test 1",
+      value: 26,
+      isOpenValue: true,
+    };
+    createdAdjustment = await cilantro.createAdjustment(req);
+    expect(createdAdjustment.id).toBeGreaterThan(0);
+    expect(createdAdjustment.locationId).toBe(req.locationId);
+    expect(createdAdjustment.type).toBe(req.type);
+    expect(createdAdjustment.calculationPhase).toBe(req.calculationPhase);
+    expect(createdAdjustment.name).toBe(req.name);
+    expect(createdAdjustment.value).toBe(req.value);
+    expect(createdAdjustment.isOpenValue).toBe(req.isOpenValue);
+  });
+
+  test("read", async () => {
+    const readAdjustment = await cilantro.getAdjustment(
+      dummyLocation.id,
+      createdAdjustment.id
+    );
+    expect(readAdjustment.id).toBe(createdAdjustment.id);
+    expect(readAdjustment.locationId).toBe(createdAdjustment.locationId);
+    expect(readAdjustment.type).toBe(createdAdjustment.type);
+    expect(readAdjustment.calculationPhase).toBe(
+      createdAdjustment.calculationPhase
+    );
+    expect(readAdjustment.name).toBe(createdAdjustment.name);
+    expect(readAdjustment.value).toBe(createdAdjustment.value);
+    expect(readAdjustment.isOpenValue).toBe(createdAdjustment.isOpenValue);
+  });
+
+  test("read many", async () => {
+    const adjustments = await cilantro.getAdjustments(dummyLocation.id);
+    expect(adjustments.length).toBeGreaterThan(0);
+    expect(adjustments[0].id).toBeGreaterThan(0);
+  });
+
+  test("update", async () => {
+    const req: AdjustmentUpdateRequest = {
+      id: createdAdjustment.id,
+      locationId: dummyLocation.id,
+      calculationPhase: CalculationPhase.BeforeTax,
+      value: 34,
+      isOpenValue: false,
+    };
+    await cilantro.updateAdjustment(req);
+    const readAdjustment = await cilantro.getAdjustment(
+      dummyLocation.id,
+      req.id
+    );
+    expect(readAdjustment.id).toBe(createdAdjustment.id);
+    expect(readAdjustment.locationId).toBe(createdAdjustment.locationId);
+    expect(readAdjustment.type).toBe(createdAdjustment.type);
+    expect(readAdjustment.calculationPhase).toBe(req.calculationPhase);
+    expect(readAdjustment.name).toBe(createdAdjustment.name);
+    expect(readAdjustment.value).toBe(req.value);
+    expect(readAdjustment.isOpenValue).toBe(req.isOpenValue);
+  });
+
+  test("delete", async () => {
+    await cilantro.deleteAdjustment(dummyLocation.id, createdAdjustment.id);
+    try {
+      await cilantro.getAdjustment(dummyLocation.id, createdAdjustment.id);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+});
+
 // test("priceCheck", async () => {
 //   console.log(
 //     "priceCheck:",
