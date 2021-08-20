@@ -112,6 +112,12 @@ describe("items", () => {
     expect(readItem.alcohol).toBe(createdItem.alcohol);
   });
 
+  test("read many", async () => {
+    const items = await cilantro.getItems(dummyLocation.id);
+    expect(items.length).toBeGreaterThan(0);
+    expect(items[0].id).toBeGreaterThan(0);
+  });
+
   test("update", async () => {
     const req = new ItemUpdateRequest(createdItem.id, dummyLocation.id, {
       type: ItemType.Modifier,
