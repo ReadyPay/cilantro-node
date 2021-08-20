@@ -416,31 +416,86 @@ describe("payment tenders", () => {
   });
 });
 
-// test("priceCheck", async () => {
-//   console.log(
-//     "priceCheck:",
-//     await cilantro.priceCheck(
-//       new PriceCheckRequest(
-//         1,
-//         [new ItemRequest(1, 1)],
-//         [new AdjustmentRequest(1)],
-//         [new PaymentRequest(1, 42)]
-//       )
-//     )
-//   );
-// });
-//
-// test("submitOrder", async () => {
-//   console.log(
-//     "submitOrder:",
-//     await cilantro.submitOrder(
-//       new SubmitOrderRequest(
-//         1,
-//         1,
-//         [new ItemRequest(1, 1)],
-//         [new AdjustmentRequest(1)],
-//         [new PaymentRequest(1, 42)]
-//       )
-//     )
-//   );
-// });
+describe("ordering", () => {
+  let dummyItem: Item;
+  let dummyAdjustment: Adjustment;
+  let dummyPaymentTender: PaymentTender;
+
+  beforeAll(async () => {
+    await Promise.all([
+      (async () => {
+        dummyItem = await cilantro.createItem({
+          locationId: dummyLocation.id,
+          taxRateId: dummyTaxRate.id,
+          type: ItemType.Item,
+          price: 599,
+        });
+      })(),
+      (async () => {
+        dummyAdjustment = await cilantro.createAdjustment({
+          locationId: dummyLocation.id,
+          type: AdjustmentType.Amount,
+          calculationPhase: CalculationPhase.BeforeTax,
+          value: 1,
+        });
+      })(),
+      (async () => {
+        dummyPaymentTender = await cilantro.createPaymentTender({
+          locationId: dummyLocation.id,
+        });
+      })(),
+    ]);
+  });
+
+  afterAll(async () => {
+    await Promise.all([
+      cilantro.deleteItem(dummyLocation.id, dummyItem.id),
+      cilantro.deleteAdjustment(dummyLocation.id, dummyAdjustment.id),
+      cilantro.deletePaymentTender(dummyLocation.id, dummyPaymentTender.id),
+    ]);
+  });
+
+  test("priceCheck", async () => {
+    const res = await cilantro.priceCheck({
+      locationId: dummyLocation.id,
+      items: [
+        {
+          id: dummyItem.id,
+          quantity: 1,
+        },
+      ],
+      adjustments: [{ id: dummyAdjustment.id }],
+      payments: [
+        {
+          tenderId: dummyPaymentTender.id,
+          value: 50,
+        },
+      ],
+    });
+    expect(res.itemTotal).toBe(599);
+    expect(res.taxTotal).toBe(0);
+    expect(res.adjustmentTotal).toBe(1);
+    expect(res.total).toBe(600);
+    expect(res.paymentTotal).toBe(50);
+    expect(res.paymentDue).toBe(550);
+  });
+
+  // [new ItemRequest(1, 1)],
+  //   [new AdjustmentRequest(1)],
+  //   [new PaymentRequest(1, 42)]
+
+  // test("submitOrder", async () => {
+  //   console.log(
+  //     "submitOrder:",
+  //     await cilantro.submitOrder(
+  //       new SubmitOrderRequest(
+  //         1,
+  //         1,
+  //         [new ItemRequest(1, 1)],
+  //         [new AdjustmentRequest(1)],
+  //         [new PaymentRequest(1, 42)]
+  //       )
+  //     )
+  //   );
+  // });
+});
