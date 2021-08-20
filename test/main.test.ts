@@ -7,7 +7,6 @@ import { ItemUpdateRequest } from "../src/requests/item-update.request";
 import { ItemCreateRequest } from "../src/requests/item-create.request";
 import { Item, ItemType } from "../src/models/item";
 import { TaxRate } from "../src/models/taxRate";
-import { TaxRateCreateRequest } from "../src/requests/taxRate-create.request";
 
 dotenv.config();
 
