@@ -22,6 +22,7 @@ import { TaxRateCreateRequest } from "../src/requests/taxRate-create.request";
 import { PaymentTenderUpdateRequest } from "../src/requests/paymentTender-update.request";
 import { PaymentTenderCreateRequest } from "../src/requests/paymentTender-create.request";
 import { PaymentTender } from "../src/models/paymentTender";
+import { SubmitOrderResponse } from "../src/responses/submit-order.response";
 
 dotenv.config();
 
@@ -418,8 +419,10 @@ describe("payment tenders", () => {
 
 describe("ordering", () => {
   let dummyItem: Item;
+  let dummyTable: Table;
   let dummyAdjustment: Adjustment;
   let dummyPaymentTender: PaymentTender;
+  let createdOrder: SubmitOrderResponse;
 
   beforeAll(async () => {
     await Promise.all([
@@ -429,6 +432,12 @@ describe("ordering", () => {
           taxRateId: dummyTaxRate.id,
           type: ItemType.Item,
           price: 599,
+        });
+      })(),
+      (async () => {
+        dummyTable = await cilantro.createTable({
+          locationId: dummyLocation.id,
+          shape: TableShape.Rectangle,
         });
       })(),
       (async () => {
@@ -450,12 +459,13 @@ describe("ordering", () => {
   afterAll(async () => {
     await Promise.all([
       cilantro.deleteItem(dummyLocation.id, dummyItem.id),
+      cilantro.deleteTable(dummyLocation.id, dummyTable.id),
       cilantro.deleteAdjustment(dummyLocation.id, dummyAdjustment.id),
       cilantro.deletePaymentTender(dummyLocation.id, dummyPaymentTender.id),
     ]);
   });
 
-  test("priceCheck", async () => {
+  test("price check", async () => {
     const res = await cilantro.priceCheck({
       locationId: dummyLocation.id,
       items: [
@@ -480,22 +490,39 @@ describe("ordering", () => {
     expect(res.paymentDue).toBe(550);
   });
 
-  // [new ItemRequest(1, 1)],
-  //   [new AdjustmentRequest(1)],
-  //   [new PaymentRequest(1, 42)]
+  test("submit order", async () => {
+    createdOrder = await cilantro.submitOrder({
+      locationId: dummyLocation.id,
+      tableId: dummyTable.id,
+      items: [
+        {
+          id: dummyItem.id,
+          quantity: 1,
+        },
+      ],
+      adjustments: [{ id: dummyAdjustment.id }],
+      payments: [
+        {
+          tenderId: dummyPaymentTender.id,
+          value: 50,
+        },
+      ],
+    });
+    expect(createdOrder.orderId).toBeGreaterThan(0);
+    expect(createdOrder.priceCheck.itemTotal).toBe(599);
+    expect(createdOrder.priceCheck.taxTotal).toBe(0);
+    expect(createdOrder.priceCheck.adjustmentTotal).toBe(1);
+    expect(createdOrder.priceCheck.total).toBe(600);
+    expect(createdOrder.priceCheck.paymentTotal).toBe(50);
+    expect(createdOrder.priceCheck.paymentDue).toBe(550);
+  });
 
-  // test("submitOrder", async () => {
-  //   console.log(
-  //     "submitOrder:",
-  //     await cilantro.submitOrder(
-  //       new SubmitOrderRequest(
-  //         1,
-  //         1,
-  //         [new ItemRequest(1, 1)],
-  //         [new AdjustmentRequest(1)],
-  //         [new PaymentRequest(1, 42)]
-  //       )
-  //     )
-  //   );
-  // });
+  test("delete order", async () => {
+    await cilantro.deleteOrder(dummyLocation.id, createdOrder.orderId);
+    try {
+      await cilantro.getPaymentTender(dummyLocation.id, createdOrder.orderId);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
 });
