@@ -19,6 +19,9 @@ import {
 } from "../src/models/adjustment";
 import { TaxRateUpdateRequest } from "../src/requests/taxRate-update.request";
 import { TaxRateCreateRequest } from "../src/requests/taxRate-create.request";
+import { PaymentTenderUpdateRequest } from "../src/requests/paymentTender-update.request";
+import { PaymentTenderCreateRequest } from "../src/requests/paymentTender-create.request";
+import { PaymentTender } from "../src/models/paymentTender";
 
 dotenv.config();
 
@@ -306,7 +309,7 @@ describe("adjustments", () => {
   });
 });
 
-describe("taxRates", () => {
+describe("tax rates", () => {
   let createdTaxRate: TaxRate;
 
   test("create", async () => {
@@ -351,6 +354,62 @@ describe("taxRates", () => {
     await cilantro.deleteTaxRate(dummyLocation.id, createdTaxRate.id);
     try {
       await cilantro.getTaxRate(dummyLocation.id, createdTaxRate.id);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+});
+
+describe("payment tenders", () => {
+  let createdPaymentTender: PaymentTender;
+
+  test("create", async () => {
+    const req: PaymentTenderCreateRequest = {
+      locationId: dummyLocation.id,
+      name: "tender 1",
+    };
+    createdPaymentTender = await cilantro.createPaymentTender(req);
+    expect(createdPaymentTender.id).toBeGreaterThan(0);
+    expect(createdPaymentTender.locationId).toBe(req.locationId);
+    expect(createdPaymentTender.name).toBe(req.name);
+  });
+
+  test("read", async () => {
+    const readPaymentTender = await cilantro.getPaymentTender(
+      dummyLocation.id,
+      createdPaymentTender.id
+    );
+    expect(readPaymentTender.id).toBe(createdPaymentTender.id);
+    expect(readPaymentTender.locationId).toBe(createdPaymentTender.locationId);
+    expect(readPaymentTender.name).toBe(createdPaymentTender.name);
+  });
+
+  test("update", async () => {
+    const req: PaymentTenderUpdateRequest = {
+      id: createdPaymentTender.id,
+      locationId: dummyLocation.id,
+      name: "MY TENDER 2",
+    };
+    await cilantro.updatePaymentTender(req);
+    const readPaymentTender = await cilantro.getPaymentTender(
+      dummyLocation.id,
+      req.id
+    );
+    expect(readPaymentTender.id).toBe(createdPaymentTender.id);
+    expect(readPaymentTender.locationId).toBe(createdPaymentTender.locationId);
+    expect(readPaymentTender.name).toBe(req.name);
+  });
+
+  test("delete", async () => {
+    await cilantro.deletePaymentTender(
+      dummyLocation.id,
+      createdPaymentTender.id
+    );
+    try {
+      await cilantro.getPaymentTender(
+        dummyLocation.id,
+        createdPaymentTender.id
+      );
     } catch (e) {
       expect(e).toBeDefined();
     }
