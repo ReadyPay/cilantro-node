@@ -282,6 +282,12 @@ export class Cilantro {
     );
   }
 
+  async deleteOrder(locationId: number, orderId: number): Promise<void> {
+    await this.httpClient.delete<void>(
+      `/location/${locationId}/order/${orderId}`
+    );
+  }
+
   // Helpers
 
   private async createOne<T>(
