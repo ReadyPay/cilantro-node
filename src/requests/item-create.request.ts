@@ -4,6 +4,7 @@ import { ItemType } from "../models/item";
 export interface ItemCreateRequest {
   locationId: number;
   taxRateId: number;
+  // TODO make optional
   type: ItemType;
 
   enabled?: boolean;

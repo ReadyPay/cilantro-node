@@ -3,6 +3,7 @@ import { JsonType } from "../json-util";
 
 export interface TableCreateRequest {
   locationId: number;
+  // TODO make optional
   shape: TableShape;
 
   name?: string;

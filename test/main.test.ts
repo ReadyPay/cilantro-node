@@ -7,6 +7,9 @@ import { ItemUpdateRequest } from "../src/requests/item-update.request";
 import { ItemCreateRequest } from "../src/requests/item-create.request";
 import { Item, ItemType } from "../src/models/item";
 import { TaxRate } from "../src/models/taxRate";
+import { Table, TableShape } from "../src/models/table";
+import { TableCreateRequest } from "../src/requests/table-create.request";
+import { TableUpdateRequest } from "../src/requests/table-update.request";
 
 dotenv.config();
 
@@ -153,10 +156,71 @@ describe("items", () => {
   });
 });
 
-//
-// test("getItems", async () => {
-//   console.log("getItems:", (await cilantro.getItems(1)).slice(0, 1));
-// });
+describe("tables", () => {
+  let createdTable: Table;
+
+  test("create", async () => {
+    const req: TableCreateRequest = {
+      locationId: dummyLocation.id,
+      shape: TableShape.Square,
+      name: "my table",
+      yCoordinate: 36,
+    };
+    createdTable = await cilantro.createTable(req);
+    expect(createdTable.id).toBeGreaterThan(0);
+    expect(createdTable.locationId).toBe(req.locationId);
+    expect(createdTable.shape).toBe(req.shape);
+    expect(createdTable.name).toBe(req.name);
+    expect(createdTable.xCoordinate).toBe(0);
+    expect(createdTable.yCoordinate).toBe(req.yCoordinate);
+  });
+
+  test("read", async () => {
+    const readTable = await cilantro.getTable(
+      dummyLocation.id,
+      createdTable.id
+    );
+    expect(readTable.id).toBe(createdTable.id);
+    expect(readTable.locationId).toBe(createdTable.locationId);
+    expect(readTable.shape).toBe(createdTable.shape);
+    expect(readTable.name).toBe(createdTable.name);
+    expect(readTable.xCoordinate).toBe(createdTable.xCoordinate);
+    expect(readTable.yCoordinate).toBe(createdTable.yCoordinate);
+  });
+
+  test("read many", async () => {
+    const tables = await cilantro.getTables(dummyLocation.id);
+    expect(tables.length).toBeGreaterThan(0);
+    expect(tables[0].id).toBeGreaterThan(0);
+  });
+
+  test("update", async () => {
+    const req: TableUpdateRequest = {
+      id: createdTable.id,
+      locationId: dummyLocation.id,
+      shape: TableShape.Rectangle,
+      xCoordinate: 37,
+    };
+    await cilantro.updateTable(req);
+    const readTable = await cilantro.getTable(dummyLocation.id, req.id);
+    expect(readTable.id).toBe(req.id);
+    expect(readTable.locationId).toBe(req.locationId);
+    expect(readTable.shape).toBe(req.shape);
+    expect(readTable.name).toBe(createdTable.name);
+    expect(readTable.xCoordinate).toBe(req.xCoordinate);
+    expect(readTable.yCoordinate).toBe(createdTable.yCoordinate);
+  });
+
+  test("delete", async () => {
+    await cilantro.deleteTable(dummyLocation.id, createdTable.id);
+    try {
+      await cilantro.getTable(dummyLocation.id, createdTable.id);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
+});
+
 //
 // test("getTables", async () => {
 //   console.log("getTables:", (await cilantro.getTables(1)).slice(0, 1));
