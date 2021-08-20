@@ -1,3 +1,4 @@
-export class LocationCreateRequest {
-  constructor(public name?: string, public address?: string) {}
+export interface LocationCreateRequest {
+  name?: string;
+  address?: string;
 }

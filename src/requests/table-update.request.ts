@@ -1,28 +1,23 @@
 import { TableShape } from "../models/table";
-import { JsonSerializer, JsonType } from "../json-util";
+import { JsonType } from "../json-util";
 
-export interface TableUpdateFields {
+export interface TableUpdateRequest {
+  id: number;
+  locationId: number;
+
   shape?: TableShape;
   name?: string;
   xCoordinate?: number;
   yCoordinate?: number;
 }
 
-export class TableUpdateRequest implements JsonSerializer {
-  constructor(
-    public id: number,
-    public locationId: number,
-    public fields: TableUpdateFields
-  ) {}
-
-  toJson(): JsonType {
-    return {
-      id: this.id,
-      location_id: this.locationId,
-      shape: this.fields.shape,
-      name: this.fields.name,
-      x_coordinate: this.fields.xCoordinate,
-      y_coordinate: this.fields.yCoordinate,
-    };
-  }
+export function tableUpdateRequestToJson(r: TableUpdateRequest): JsonType {
+  return {
+    id: r.id,
+    location_id: r.locationId,
+    shape: r.shape,
+    name: r.name,
+    x_coordinate: r.xCoordinate,
+    y_coordinate: r.yCoordinate,
+  };
 }

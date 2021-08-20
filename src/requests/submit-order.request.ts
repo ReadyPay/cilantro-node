@@ -1,24 +1,28 @@
-import { JsonSerializer, JsonType } from "../json-util";
-import { ItemRequest } from "./item.request";
+import { JsonType } from "../json-util";
+import { PriceCheckItemRequest } from "./price-check-item.request";
 import { AdjustmentRequest } from "./adjustment.request";
-import { PaymentRequest } from "./payment.request";
+import {
+  PriceCheckPaymentRequest,
+  priceCheckPaymentRequestToJson,
+} from "./price-check-payment.request";
 
-export class SubmitOrderRequest implements JsonSerializer {
-  constructor(
-    public locationId: number,
-    public tableId: number,
-    public items?: ItemRequest[],
-    public adjustments?: AdjustmentRequest[],
-    public payments?: PaymentRequest[],
-    public tipAmount?: number
-  ) {}
+export interface SubmitOrderRequest {
+  locationId: number;
+  tableId: number;
 
-  toJson(): JsonType {
-    return {
-      items: this.items,
-      adjustments: this.adjustments,
-      payments: this.payments?.map((p) => p.toJson()),
-      tip_amount: this.tipAmount,
-    };
-  }
+  items?: PriceCheckItemRequest[];
+  adjustments?: AdjustmentRequest[];
+  payments?: PriceCheckPaymentRequest[];
+  tipAmount?: number;
+}
+
+export function submitOrderRequestToJson(r: SubmitOrderRequest): JsonType {
+  return {
+    location_id: r.locationId,
+    table_id: r.tableId,
+    items: r.items,
+    adjustments: r.adjustments,
+    payments: r.payments?.map((p) => priceCheckPaymentRequestToJson(p)),
+    tip_amount: r.tipAmount,
+  };
 }

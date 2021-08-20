@@ -1,3 +1,5 @@
-export class AdjustmentRequest {
-  constructor(public id: number, public value?: number) {}
+export interface AdjustmentRequest {
+  id: number;
+
+  value?: number;
 }

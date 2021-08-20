@@ -1,21 +1,18 @@
-import { JsonSerializer, JsonType } from "../json-util";
+import { JsonType } from "../json-util";
 
-export interface AdjustmentUpdateFields {
-  value: number;
+export interface AdjustmentUpdateRequest {
+  id: number;
+  locationId: number;
+
+  value?: number;
 }
 
-export class AdjustmentUpdateRequest implements JsonSerializer {
-  constructor(
-    public id: number,
-    public locationId: number,
-    public fields: AdjustmentUpdateFields
-  ) {}
-
-  toJson(): JsonType {
-    return {
-      id: this.id,
-      location_id: this.locationId,
-      value: this.fields.value,
-    };
-  }
+export function adjustmentUpdateRequestToJson(
+  r: AdjustmentUpdateRequest
+): JsonType {
+  return {
+    id: r.id,
+    location_id: r.locationId,
+    value: r.value,
+  };
 }

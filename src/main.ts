@@ -3,25 +3,61 @@ import { Item } from "./models/item";
 import { JsonDeserializer, JsonType } from "./json-util";
 import { Table } from "./models/table";
 import { PriceCheckResponse } from "./responses/price-check.response";
-import { PriceCheckRequest } from "./requests/price-check.request";
-import { SubmitOrderRequest } from "./requests/submit-order.request";
+import {
+  PriceCheckRequest,
+  priceCheckRequestToJson,
+} from "./requests/price-check.request";
+import {
+  SubmitOrderRequest,
+  submitOrderRequestToJson,
+} from "./requests/submit-order.request";
 import { SubmitOrderResponse } from "./responses/submit-order.response";
 import { Adjustment } from "./models/adjustment";
 import { Location } from "./models/location";
 import { LocationCreateRequest } from "./requests/location-create.request";
 import { LocationUpdateRequest } from "./requests/location-update.request";
-import { ItemCreateRequest } from "./requests/item-create.request";
-import { ItemUpdateRequest } from "./requests/item-update.request";
-import { TableCreateRequest } from "./requests/table-create.request";
-import { TableUpdateRequest } from "./requests/table-update.request";
-import { AdjustmentCreateRequest } from "./requests/adjustment-create.request";
-import { AdjustmentUpdateRequest } from "./requests/adjustment-update.request";
+import {
+  ItemCreateRequest,
+  itemCreateRequestToJson,
+} from "./requests/item-create.request";
+import {
+  ItemUpdateRequest,
+  itemUpdateRequestToJson,
+} from "./requests/item-update.request";
+import {
+  TableCreateRequest,
+  tableCreateRequestToJson,
+} from "./requests/table-create.request";
+import {
+  TableUpdateRequest,
+  tableUpdateRequestToJson,
+} from "./requests/table-update.request";
+import {
+  AdjustmentCreateRequest,
+  adjustmentCreateRequestToJson,
+} from "./requests/adjustment-create.request";
+import {
+  AdjustmentUpdateRequest,
+  adjustmentUpdateRequestToJson,
+} from "./requests/adjustment-update.request";
 import { TaxRate } from "./models/taxRate";
-import { TaxRateCreateRequest } from "./requests/taxRate-create.request";
-import { TaxRateUpdateRequest } from "./requests/taxRate-update.request";
+import {
+  TaxRateCreateRequest,
+  taxRateCreateRequestToJson,
+} from "./requests/taxRate-create.request";
+import {
+  TaxRateUpdateRequest,
+  taxRateUpdateRequestToJson,
+} from "./requests/taxRate-update.request";
 import { PaymentTender } from "./models/paymentTender";
-import { PaymentTenderUpdateRequest } from "./requests/paymentTender-update.request";
-import { PaymentTenderCreateRequest } from "./requests/paymentTender-create.request";
+import {
+  PaymentTenderUpdateRequest,
+  paymentTenderUpdateRequestToJson,
+} from "./requests/paymentTender-update.request";
+import {
+  PaymentTenderCreateRequest,
+  paymentTenderCreateRequestToJson,
+} from "./requests/paymentTender-create.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -57,7 +93,11 @@ export class Cilantro {
   // Items
 
   async createItem(item: ItemCreateRequest): Promise<Item> {
-    return this.createOne(`/location/${item.locationId}/item`, item, Item);
+    return this.createOne(
+      `/location/${item.locationId}/item`,
+      itemCreateRequestToJson(item),
+      Item
+    );
   }
 
   async getItem(locationId: number, itemId: number): Promise<Item> {
@@ -67,7 +107,7 @@ export class Cilantro {
   async updateItem(item: ItemUpdateRequest): Promise<void> {
     await this.httpClient.patch<void>(
       `/location/${item.locationId}/item/${item.id}`,
-      item
+      itemUpdateRequestToJson(item)
     );
   }
 
@@ -84,7 +124,11 @@ export class Cilantro {
   // Tables
 
   async createTable(table: TableCreateRequest): Promise<Table> {
-    return this.createOne(`/location/${table.locationId}/table`, table, Table);
+    return this.createOne(
+      `/location/${table.locationId}/table`,
+      tableCreateRequestToJson(table),
+      Table
+    );
   }
 
   async getTable(locationId: number, tableId: number): Promise<Table> {
@@ -94,7 +138,7 @@ export class Cilantro {
   async updateTable(table: TableUpdateRequest): Promise<void> {
     await this.httpClient.patch<void>(
       `/location/${table.locationId}/table/${table.id}`,
-      table
+      tableUpdateRequestToJson(table)
     );
   }
 
@@ -115,7 +159,7 @@ export class Cilantro {
   ): Promise<Adjustment> {
     return this.createOne(
       `/location/${adjustment.locationId}/adjustment`,
-      adjustment,
+      adjustmentCreateRequestToJson(adjustment),
       Adjustment
     );
   }
@@ -133,7 +177,7 @@ export class Cilantro {
   async updateAdjustment(adjustment: AdjustmentUpdateRequest): Promise<void> {
     await this.httpClient.patch<void>(
       `/location/${adjustment.locationId}/adjustment/${adjustment.id}`,
-      adjustment
+      adjustmentUpdateRequestToJson(adjustment)
     );
   }
 
@@ -155,7 +199,7 @@ export class Cilantro {
   async createTaxRate(taxRate: TaxRateCreateRequest): Promise<TaxRate> {
     return this.createOne(
       `/location/${taxRate.locationId}/tax-rate`,
-      taxRate,
+      taxRateCreateRequestToJson(taxRate),
       TaxRate
     );
   }
@@ -170,7 +214,7 @@ export class Cilantro {
   async updateTaxRate(taxRate: TaxRateUpdateRequest): Promise<void> {
     await this.httpClient.patch<void>(
       `/location/${taxRate.locationId}/tax-rate/${taxRate.id}`,
-      taxRate
+      taxRateUpdateRequestToJson(taxRate)
     );
   }
 
@@ -187,7 +231,7 @@ export class Cilantro {
   ): Promise<PaymentTender> {
     return this.createOne(
       `/location/${paymentTender.locationId}/payment-tender`,
-      paymentTender,
+      paymentTenderCreateRequestToJson(paymentTender),
       PaymentTender
     );
   }
@@ -207,7 +251,7 @@ export class Cilantro {
   ): Promise<void> {
     await this.httpClient.patch<void>(
       `/location/${paymentTender.locationId}/payment-tender/${paymentTender.id}`,
-      paymentTender
+      paymentTenderUpdateRequestToJson(paymentTender)
     );
   }
 
@@ -225,7 +269,7 @@ export class Cilantro {
   async priceCheck(request: PriceCheckRequest): Promise<PriceCheckResponse> {
     return this.createOne(
       `/location/${request.locationId}/price-check`,
-      request,
+      priceCheckRequestToJson(request),
       PriceCheckResponse
     );
   }
@@ -233,7 +277,7 @@ export class Cilantro {
   async submitOrder(request: SubmitOrderRequest): Promise<SubmitOrderResponse> {
     return this.createOne(
       `/location/${request.locationId}/table/${request.tableId}/order`,
-      request,
+      submitOrderRequestToJson(request),
       SubmitOrderResponse
     );
   }

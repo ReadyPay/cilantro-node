@@ -1,21 +1,18 @@
-import { JsonSerializer, JsonType } from "../json-util";
+import { JsonType } from "../json-util";
 
-export interface PaymentTenderUpdateFields {
-  name: string;
+export interface PaymentTenderUpdateRequest {
+  id: number;
+  locationId: number;
+
+  name?: string;
 }
 
-export class PaymentTenderUpdateRequest implements JsonSerializer {
-  constructor(
-    public id: number,
-    public locationId: number,
-    public fields: PaymentTenderUpdateFields
-  ) {}
-
-  toJson(): JsonType {
-    return {
-      id: this.id,
-      location_id: this.locationId,
-      name: this.fields.name,
-    };
-  }
+export function paymentTenderUpdateRequestToJson(
+  r: PaymentTenderUpdateRequest
+): JsonType {
+  return {
+    id: r.id,
+    location_id: r.locationId,
+    name: r.name,
+  };
 }

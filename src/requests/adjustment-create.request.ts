@@ -1,12 +1,16 @@
-import { JsonSerializer, JsonType } from "../json-util";
+import { JsonType } from "../json-util";
 
-export class AdjustmentCreateRequest implements JsonSerializer {
-  constructor(public locationId: number, public value: number) {}
+export interface AdjustmentCreateRequest {
+  locationId: number;
 
-  toJson(): JsonType {
-    return {
-      location_id: this.locationId,
-      value: this.value,
-    };
-  }
+  value?: number;
+}
+
+export function adjustmentCreateRequestToJson(
+  r: AdjustmentCreateRequest
+): JsonType {
+  return {
+    location_id: r.locationId,
+    value: r.value,
+  };
 }

@@ -1,21 +1,23 @@
-import { ItemRequest } from "./item.request";
+import { PriceCheckItemRequest } from "./price-check-item.request";
 import { AdjustmentRequest } from "./adjustment.request";
-import { PaymentRequest } from "./payment.request";
-import { JsonSerializer, JsonType } from "../json-util";
+import {
+  PriceCheckPaymentRequest,
+  priceCheckPaymentRequestToJson,
+} from "./price-check-payment.request";
+import { JsonType } from "../json-util";
 
-export class PriceCheckRequest implements JsonSerializer {
-  constructor(
-    public locationId: number,
-    public items?: ItemRequest[],
-    public adjustments?: AdjustmentRequest[],
-    public payments?: PaymentRequest[]
-  ) {}
+export interface PriceCheckRequest {
+  locationId: number;
 
-  toJson(): JsonType {
-    return {
-      items: this.items,
-      adjustments: this.adjustments,
-      payments: this.payments?.map((p) => p.toJson()),
-    };
-  }
+  items?: PriceCheckItemRequest[];
+  adjustments?: AdjustmentRequest[];
+  payments?: PriceCheckPaymentRequest[];
+}
+
+export function priceCheckRequestToJson(r: PriceCheckRequest): JsonType {
+  return {
+    items: r.items,
+    adjustments: r.adjustments,
+    payments: r.payments?.map((p) => priceCheckPaymentRequestToJson(p)),
+  };
 }

@@ -1,7 +1,10 @@
-import { JsonSerializer, JsonType } from "../json-util";
+import { JsonType } from "../json-util";
 import { ItemType } from "../models/item";
 
-export interface ItemUpdateFields {
+export interface ItemUpdateRequest {
+  id: number;
+  locationId: number;
+
   taxRateId?: number;
   type?: ItemType;
   enabled?: boolean;
@@ -12,25 +15,17 @@ export interface ItemUpdateFields {
   alcohol?: boolean;
 }
 
-export class ItemUpdateRequest implements JsonSerializer {
-  constructor(
-    public id: number,
-    public locationId: number,
-    public fields: ItemUpdateFields
-  ) {}
-
-  toJson(): JsonType {
-    return {
-      id: this.id,
-      location_id: this.locationId,
-      tax_rate_id: this.fields.taxRateId,
-      type: this.fields.type,
-      enabled: this.fields.enabled,
-      name: this.fields.name,
-      description: this.fields.description,
-      image_url: this.fields.imageUrl,
-      price: this.fields.price,
-      alcohol: this.fields.alcohol,
-    };
-  }
+export function itemUpdateRequestToJson(r: ItemUpdateRequest): JsonType {
+  return {
+    id: r.id,
+    location_id: r.locationId,
+    tax_rate_id: r.taxRateId,
+    type: r.type,
+    enabled: r.enabled,
+    name: r.name,
+    description: r.description,
+    image_url: r.imageUrl,
+    price: r.price,
+    alcohol: r.alcohol,
+  };
 }

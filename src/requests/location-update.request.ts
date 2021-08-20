@@ -1,18 +1,6 @@
-import { JsonSerializer, JsonType } from "../json-util";
+export interface LocationUpdateRequest {
+  id: number;
 
-export interface LocationUpdateFields {
   name?: string;
   address?: string;
-}
-
-export class LocationUpdateRequest implements JsonSerializer {
-  constructor(public id: number, public fields: LocationUpdateFields) {}
-
-  toJson(): JsonType {
-    return {
-      id: this.id,
-      name: this.fields.name,
-      address: this.fields.address,
-    };
-  }
 }
