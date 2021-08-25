@@ -5,11 +5,6 @@ export interface JsonDeserializer<T> {
   fromJson(d: string | JsonType): T;
 }
 
-// Classes will naturally serialize to JSON, but those that require name conversions to snake case will implement this.
-export interface JsonSerializer {
-  toJson(): JsonType;
-}
-
 export function extractNumber(data: JsonType, k: string): number {
   return typeof data[k] === "number" ? (data[k] as number) : 0;
 }

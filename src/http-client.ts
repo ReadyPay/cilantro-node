@@ -26,30 +26,15 @@ export class HttpClient {
   }
 
   async post<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
-    return this.formatResponse(
-      await this.client.post<T>(path, this.formatRequestData(data))
-    );
+    return this.formatResponse(await this.client.post<T>(path, data));
   }
 
   async patch<T>(path: string, data?: unknown): Promise<HttpResponse<T>> {
-    return this.formatResponse(
-      await this.client.patch<T>(path, this.formatRequestData(data))
-    );
+    return this.formatResponse(await this.client.patch<T>(path, data));
   }
 
   async delete<T>(path: string): Promise<HttpResponse<T>> {
     return this.formatResponse(await this.client.delete<T>(path));
-  }
-
-  private formatRequestData(data: unknown): JsonType {
-    if (
-      typeof data === "object" &&
-      data !== null &&
-      typeof (data as JsonSerializer).toJson === "function"
-    ) {
-      return (data as JsonSerializer).toJson();
-    }
-    return data as JsonType;
   }
 
   private formatResponse<T>(res: AxiosResponse<T>): HttpResponse<T> {
