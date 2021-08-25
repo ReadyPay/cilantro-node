@@ -1,5 +1,4 @@
 import axios, { AxiosInstance, AxiosResponse } from "axios";
-import { JsonSerializer, JsonType } from "./json-util";
 
 interface HttpResponse<T> {
   data: T;
