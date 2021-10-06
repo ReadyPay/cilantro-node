@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DerekRTP/cilantro-node.git"
+    "url": "git+https://github.com/ReadyPay/cilantro-node.git"
   },
   "author": "Ready",
   "license": "GPL-3.0-or-later",
   "bugs": {
-    "url": "https://github.com/DerekRTP/cilantro-node/issues"
+    "url": "https://github.com/ReadyPay/cilantro-node/issues"
   },
-  "homepage": "https://github.com/DerekRTP/cilantro-node#readme",
+  "homepage": "https://github.com/ReadyPay/cilantro-node#readme",
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@types/node": "^15.12.2",
