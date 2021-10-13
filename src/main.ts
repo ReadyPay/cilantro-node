@@ -77,20 +77,20 @@ export class Cilantro {
 
   // Companies
 
-  async createCompany(location: CompanyCreateRequest): Promise<Company> {
-    return this.createOne("/location", location, Company);
+  async createCompany(company: CompanyCreateRequest): Promise<Company> {
+    return this.createOne("/company", company, Company);
   }
 
-  async getCompany(locationId: number): Promise<Company> {
-    return this.getOne(`/location/${locationId}`, Company);
+  async getCompany(companyId: number): Promise<Company> {
+    return this.getOne(`/company/${companyId}`, Company);
   }
 
-  async updateCompany(location: CompanyUpdateRequest): Promise<void> {
-    await this.httpClient.patch<void>(`/location/${location.id}`, location);
+  async updateCompany(company: CompanyUpdateRequest): Promise<void> {
+    await this.httpClient.patch<void>(`/company/${company.id}`, company);
   }
 
-  async deleteCompany(locationId: number): Promise<void> {
-    await this.httpClient.delete<void>(`/location/${locationId}`);
+  async deleteCompany(companyId: number): Promise<void> {
+    await this.httpClient.delete<void>(`/company/${companyId}`);
   }
 
   // Locations
