@@ -14,8 +14,14 @@ import {
 import { SubmitOrderResponse } from "./responses/submit-order.response";
 import { Adjustment } from "./models/adjustment";
 import { Location } from "./models/location";
-import { LocationCreateRequest } from "./requests/location-create.request";
-import { LocationUpdateRequest } from "./requests/location-update.request";
+import {
+  LocationCreateRequest,
+  locationCreateRequestToJson,
+} from "./requests/location-create.request";
+import {
+  LocationUpdateRequest,
+  locationUpdateRequestToJson,
+} from "./requests/location-update.request";
 import {
   ItemCreateRequest,
   itemCreateRequestToJson,
@@ -96,7 +102,11 @@ export class Cilantro {
   // Locations
 
   async createLocation(location: LocationCreateRequest): Promise<Location> {
-    return this.createOne("/location", location, Location);
+    return this.createOne(
+      "/location",
+      locationCreateRequestToJson(location),
+      Location
+    );
   }
 
   async getLocation(locationId: number): Promise<Location> {
@@ -104,7 +114,10 @@ export class Cilantro {
   }
 
   async updateLocation(location: LocationUpdateRequest): Promise<void> {
-    await this.httpClient.patch<void>(`/location/${location.id}`, location);
+    await this.httpClient.patch<void>(
+      `/location/${location.id}`,
+      locationUpdateRequestToJson(location)
+    );
   }
 
   async deleteLocation(locationId: number): Promise<void> {
