@@ -1,11 +1,12 @@
 import { Model } from "./model";
-import { extractString, JsonType } from "../json-util";
+import { extractNullableNumber, extractString, JsonType } from "../json-util";
 
 export class Location extends Model {
   constructor(
     readonly id: number,
     readonly createdAt: Date,
     readonly updatedAt: Date,
+    readonly companyId: number | null,
     readonly name: string,
     readonly address: string
   ) {
@@ -18,6 +19,7 @@ export class Location extends Model {
     }
     return new Location(
       ...Model.extractPropsFromJson(d),
+      extractNullableNumber(d, "company_id"),
       extractString(d, "name"),
       extractString(d, "address")
     );

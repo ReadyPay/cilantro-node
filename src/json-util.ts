@@ -9,6 +9,13 @@ export function extractNumber(data: JsonType, k: string): number {
   return typeof data[k] === "number" ? (data[k] as number) : 0;
 }
 
+export function extractNullableNumber(
+  data: JsonType,
+  k: string
+): number | null {
+  return typeof data[k] === "number" ? (data[k] as number) : null;
+}
+
 export function extractDate(data: JsonType, k: string): Date {
   return typeof data[k] === "string" ? new Date(data[k] as string) : new Date();
 }
