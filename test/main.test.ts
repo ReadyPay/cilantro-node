@@ -23,17 +23,20 @@ import { PaymentTenderUpdateRequest } from "../src/requests/paymentTender-update
 import { PaymentTenderCreateRequest } from "../src/requests/paymentTender-create.request";
 import { PaymentTender } from "../src/models/paymentTender";
 import { SubmitOrderResponse } from "../src/responses/submit-order.response";
+import { CompanyUpdateRequest } from "../src/requests/company-update.request";
+import { CompanyCreateRequest } from "../src/requests/company-create.request";
+import { Company } from "../src/models/company";
 
 dotenv.config();
 
 let cilantro: Cilantro;
 
-let dummyLocation: Location;
-let dummyTaxRate: TaxRate;
+let dummyCompany: Company, dummyLocation: Location, dummyTaxRate: TaxRate;
 
 beforeAll(async () => {
   cilantro = new Cilantro(process.env.KEY ?? "", process.env.URL ?? "");
 
+  dummyCompany = await cilantro.createCompany({});
   dummyLocation = await cilantro.createLocation({});
   dummyTaxRate = await cilantro.createTaxRate({ locationId: dummyLocation.id });
 });
@@ -41,6 +44,46 @@ beforeAll(async () => {
 afterAll(async () => {
   await cilantro.deleteTaxRate(dummyLocation.id, dummyTaxRate.id);
   await cilantro.deleteLocation(dummyLocation.id);
+  await cilantro.deleteCompany(dummyCompany.id);
+});
+
+describe("companies", () => {
+  let createdCompany: Company;
+
+  test("create", async () => {
+    const req: CompanyCreateRequest = {
+      name: "my location",
+    };
+    createdCompany = await cilantro.createCompany(req);
+    expect(createdCompany.id).toBeGreaterThan(0);
+    expect(createdCompany.name).toBe(req.name);
+  });
+
+  test("read", async () => {
+    const readCompany = await cilantro.getCompany(createdCompany.id);
+    expect(readCompany.id).toBe(createdCompany.id);
+    expect(readCompany.name).toBe(createdCompany.name);
+  });
+
+  test("update", async () => {
+    const req: CompanyUpdateRequest = {
+      id: createdCompany.id,
+      name: "foo",
+    };
+    await cilantro.updateCompany(req);
+    const readCompany = await cilantro.getCompany(req.id);
+    expect(readCompany.id).toBe(req.id);
+    expect(readCompany.name).toBe(req.name);
+  });
+
+  test("delete", async () => {
+    await cilantro.deleteCompany(createdCompany.id);
+    try {
+      await cilantro.getCompany(createdCompany.id);
+    } catch (e) {
+      expect(e).toBeDefined();
+    }
+  });
 });
 
 describe("locations", () => {
@@ -53,6 +96,7 @@ describe("locations", () => {
     };
     createdLocation = await cilantro.createLocation(req);
     expect(createdLocation.id).toBeGreaterThan(0);
+    expect(createdLocation.companyId).toBe(null);
     expect(createdLocation.name).toBe(req.name);
     expect(createdLocation.address).toBe(req.address);
   });
@@ -60,6 +104,7 @@ describe("locations", () => {
   test("read", async () => {
     const readLocation = await cilantro.getLocation(createdLocation.id);
     expect(readLocation.id).toBe(createdLocation.id);
+    expect(readLocation.companyId).toBe(null);
     expect(readLocation.name).toBe(createdLocation.name);
     expect(readLocation.address).toBe(createdLocation.address);
   });
@@ -67,12 +112,14 @@ describe("locations", () => {
   test("update", async () => {
     const req: LocationUpdateRequest = {
       id: createdLocation.id,
+      companyId: dummyCompany.id,
       name: "foo",
       address: "bar",
     };
     await cilantro.updateLocation(req);
     const readLocation = await cilantro.getLocation(req.id);
     expect(readLocation.id).toBe(req.id);
+    expect(readLocation.companyId).toBe(dummyCompany.id);
     expect(readLocation.name).toBe(req.name);
     expect(readLocation.address).toBe(req.address);
   });
