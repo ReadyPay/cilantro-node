@@ -58,6 +58,9 @@ import {
   PaymentTenderCreateRequest,
   paymentTenderCreateRequestToJson,
 } from "./requests/paymentTender-create.request";
+import { Company } from "./models/company";
+import { CompanyCreateRequest } from "./requests/company-create.request";
+import { CompanyUpdateRequest } from "./requests/company-update.request";
 
 export class Cilantro {
   private readonly httpClient: HttpClient;
@@ -70,6 +73,24 @@ export class Cilantro {
     if (!this.apiUrl) throw new Error("cilantro apiUrl is required");
 
     this.httpClient = new HttpClient(this.apiKey, this.apiUrl);
+  }
+
+  // Companies
+
+  async createCompany(location: CompanyCreateRequest): Promise<Company> {
+    return this.createOne("/location", location, Company);
+  }
+
+  async getCompany(locationId: number): Promise<Company> {
+    return this.getOne(`/location/${locationId}`, Company);
+  }
+
+  async updateCompany(location: CompanyUpdateRequest): Promise<void> {
+    await this.httpClient.patch<void>(`/location/${location.id}`, location);
+  }
+
+  async deleteCompany(locationId: number): Promise<void> {
+    await this.httpClient.delete<void>(`/location/${locationId}`);
   }
 
   // Locations
